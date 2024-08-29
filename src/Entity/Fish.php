@@ -47,6 +47,14 @@ class Fish
     #[ORM\Column(length: 255)]
     private ?string $picFilename = null;
 
+    #[ORM\ManyToOne(inversedBy: 'fishes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?FishFamily $family = null;
+
+    #[ORM\ManyToOne(inversedBy: 'fishes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Origin $origin = null;
+
 
 
     public function getId(): ?int
@@ -182,6 +190,30 @@ class Fish
     public function setDescription(string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getFamily(): ?FishFamily
+    {
+        return $this->family;
+    }
+
+    public function setFamily(?FishFamily $family): static
+    {
+        $this->family = $family;
+
+        return $this;
+    }
+
+    public function getOrigin(): ?Origin
+    {
+        return $this->origin;
+    }
+
+    public function setOrigin(?Origin $origin): static
+    {
+        $this->origin = $origin;
 
         return $this;
     }
