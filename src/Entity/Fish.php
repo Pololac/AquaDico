@@ -44,7 +44,7 @@ class Fish
     #[ORM\Column(nullable: true)]
     private ?int $maxGh = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $picFilename = null;
 
     #[ORM\ManyToOne(inversedBy: 'fishes')]
