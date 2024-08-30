@@ -1,0 +1,15 @@
+<div class="group relative -mx-4 sm:-mx-8 p-6 sm:p-8 rounded-3xl bg-white dark:bg-transparent border border-transparent hover:border-gray-100 dark:shadow-none dark:hover:border-gray-700 dark:hover:bg-gray-800 shadow-2xl shadow-transparent hover:shadow-gray-600/10 sm:gap-8 sm:flex transition duration-300 hover:z-10">
+  <div class="sm:w-2/6 rounded-3xl overflow-hidden transition-all duration-500 group-hover:rounded-xl">
+    <a href="{{ path('fish_item', { id: fish.id }) }}"><img src="{{ asset('images/poisson.jpg') }}" alt="fish picture" loading="lazy" width="1000" height="667" class="h-56 sm:h-full w-full object-cover object-top transition duration-500 group-hover:scale-105" /></a>
+  </div>
+
+  <div class="sm:p-2 sm:pl-0 sm:w-4/6">
+    <span class="mt-4 mb-2 inline-block font-medium text-gray-400 dark:text-gray-500 sm:mt-0">{{ fish.latinName }}</span>
+    <h3 class="text-2xl font-semibold text-gray-800 dark:text-white"><a href="{{ path('fish_item', { id: fish.id }) }}" class="hover:underline">{{ fish.name }}</a></h3>
+    <p class="my-6 text-gray-600 dark:text-gray-300">Le poisson combattant, Betta splendens, parfois appelé combattant du Siam, est un poisson tropical originaire d'Asie du Sud-Est. Il réside dans les zones peu profondes des rizières et des ruisseaux...</p>
+
+    <div class="flex gap-4">
+      <a href="{{ path('family_item', { id: fish.family.id }) }}" class="px-3 py-1 rounded-full border border-gray-100 text-sm font-medium text-primary transition duration-300 hover:border-transparent hover:bg-primary dark:hover:text-white dark:border-gray-700 dark:text-gray-300">{{ fish.family.name }}</a>
+    </div>
+  </div>
+</div>

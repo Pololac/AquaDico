@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Fiche poisson
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center text-5xl text-bold mb-8">{{fish.name}}</h1>
+    <p class="text-justify">{{fish.description}}</p>
+{% endblock %}
