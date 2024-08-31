@@ -53,7 +53,7 @@ class AppFixtures extends Fixture
             $fish
                 ->setName($faker->word())
                 ->setLatinName($faker->sentence(2))
-                ->setDescription($faker->realTextBetween(350,1500))
+                ->setDescription($faker->paragraphs(3, true))
                 ->setAdultSize($faker->randomDigitNotNull())
                 ->setMinTemp($faker->numberBetween(10, 30))
                 ->setMaxTemp($faker->numberBetween(10, 30))

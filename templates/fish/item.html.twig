@@ -1,10 +1,66 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    Fiche poisson
+    {{fish.name}}
 {% endblock %}
 
 {% block body %}
-    <h1 class="text-center text-5xl text-bold mb-8">{{fish.name}}</h1>
-    <p class="text-justify">{{fish.description}}</p>
+    <div class="container">
+        <div class="flex flex-row">
+            <div class="basis-2/5">
+                <img class="rounded-lg h-56 sm:h-full w-full object-cover object-top transition duration-500 group-hover:scale-105" src="{{ asset('images/poisson.jpg') }}" alt="fish picture" loading="lazy"/>
+            </div>
+            <div class="basis-3/5 content-center">
+                <h1 class="ml-5 text-5xl text-bold mb-2">{{fish.name}}</h1>
+                <h3 class="ml-5 mb-1 inline-block font-normal italic text-gray-400 dark:text-gray-500">{{ fish.latinName }}</h3>
+            </div>
+        </div>
+
+        <div class="">
+            <h2 class="mt-5 text-3xl text-bold mb-2">Description</h2>   
+            <p class="text-justify">{{fish.description}}</p>
+        </div>
+
+        <div class="">
+            <h2 class="mt-5 mb-4 text-3xl text-bold">Paramètres de maintenance</h2>   
+            <div class="container mx-auto">
+                <table class="min-w-full bg-white border border-gray-200">
+                    <thead>
+                        <tr class="w-full bg-gray-200 text-left">
+                            <th class="py-3 px-4 border-b border-gray-300"></th>
+                            <th class="py-3 px-4 border-b border-gray-300">Min</th>
+                            <th class="py-3 px-4 border-b border-gray-300">Max</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="hover:bg-gray-100">
+                            <td class="py-3 px-4 border-b border-gray-300">Température (°C)</td>
+                            <td class="py-3 px-4 border-b border-gray-300">{{fish.minTemp}}</td>
+                            <td class="py-3 px-4 border-b border-gray-300">{{fish.maxTemp}}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100">
+                            <td class="py-3 px-4 border-b border-gray-300">Acidité (pH)</td>
+                            <td class="py-3 px-4 border-b border-gray-300">{{fish.minPh}}</td>
+                            <td class="py-3 px-4 border-b border-gray-300">{{fish.maxPh}}</td>
+                        </tr>
+                        <tr class="hover:bg-gray-100">
+                            <td class="py-3 px-4 border-b border-gray-300">Dureté (Gh)</td>
+                            <td class="py-3 px-4 border-b border-gray-300">{{fish.minGh}}</td>
+                            <td class="py-3 px-4 border-b border-gray-300">{{fish.maxPh}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>    
+        </div>
+
+        <div class="flex justify-end">
+            <div class="mt-5">
+                <a href="{{ path('fishes_list') }}" >
+                    <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Retour</button>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
 {% endblock %}

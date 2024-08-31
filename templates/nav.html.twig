@@ -1,7 +1,7 @@
 {% set route = app.request.attributes.get('_route') %} 
 
 <nav class="bg-white border-gray-200 dark:bg-gray-900">
-  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
     <a href="{{path('homepage')}}" class="flex items-center space-x-3 rtl:space-x-reverse">
         <img src="{{ asset('images/AquaDico_Logo.png') }}" class="h-32" alt="AquaDico Logo" />
         {# <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">AquaDico</span> #}
@@ -20,7 +20,7 @@
           <a href="{{path('homepage')}}" class="block py-2 px-3  bg-blue-700 rounded md:bg-transparent md:p-0 {{ route == 'homepage' ? ' md:text-blue-700 md:p-0 md:dark:text-blue-500' : 'text-gray-900 dark:text-white' }}">Accueil</a>
         </li>
         <li>
-          <a href="#" class="block py-2 px-3 bg-blue-700 rounded md:bg-transparent md:p-0 {{ route starts with 'fishes' ? ' md:text-blue-700 md:p-0 md:dark:text-blue-500' : 'text-gray-900 dark:text-white' }}">Poissons</a>
+          <a href="{{path('fishes_list')}}" class="block py-2 px-3 bg-blue-700 rounded md:bg-transparent md:p-0 {{ route starts with 'fish' ? ' md:text-blue-700 md:p-0 md:dark:text-blue-500' : 'text-gray-900 dark:text-white' }}">Poissons</a>
         </li>
         <li>
           <a href="#" class="block py-2 px-3 bg-blue-700 rounded md:bg-transparent md:p-0 {{ route starts with 'author' ? ' md:text-blue-700 md:p-0 md:dark:text-blue-500' : 'text-gray-900 dark:text-white' }}">Crustacés</a>

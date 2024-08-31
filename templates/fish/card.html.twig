@@ -1,4 +1,19 @@
-<div class="group relative -mx-4 sm:-mx-8 p-6 sm:p-8 rounded-3xl bg-white dark:bg-transparent border border-transparent hover:border-gray-100 dark:shadow-none dark:hover:border-gray-700 dark:hover:bg-gray-800 shadow-2xl shadow-transparent hover:shadow-gray-600/10 sm:gap-8 sm:flex transition duration-300 hover:z-10">
+<div>
+  <div class="max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <a href="{{ path('fish_item', { id: fish.id }) }}">
+        <img class="rounded-t-lg h-56 sm:h-full w-full object-cover object-top transition duration-300 ease-in-out hover:brightness-125" src="{{ asset('images/poisson.jpg') }}" alt="fish picture" loading="lazy"/>
+    </a>
+    <div class="mx-5 my-2">
+        <a href="{{ path('fish_item', { id: fish.id }) }}">
+            <h5 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white hover:text-blue-700">{{ fish.name }}</h5>
+            <span class="mb-1 inline-block font-normal italic text-gray-400 dark:text-gray-500">{{ fish.latinName }}</span>
+        </a>
+    </div>
+  </div>
+</div>
+
+{# <div class="group relative -mx-4 sm:-mx-8 p-6 sm:p-8 rounded-3xl bg-white dark:bg-transparent border border-transparent hover:border-gray-100 dark:shadow-none dark:hover:border-gray-700 dark:hover:bg-gray-800 shadow-2xl shadow-transparent hover:shadow-gray-600/10 sm:gap-8 sm:flex transition duration-300 hover:z-10">
+
   <div class="sm:w-2/6 rounded-3xl overflow-hidden transition-all duration-500 group-hover:rounded-xl">
     <a href="{{ path('fish_item', { id: fish.id }) }}"><img src="{{ asset('images/poisson.jpg') }}" alt="fish picture" loading="lazy" width="1000" height="667" class="h-56 sm:h-full w-full object-cover object-top transition duration-500 group-hover:scale-105" /></a>
   </div>
@@ -9,7 +24,7 @@
     <p class="my-6 text-gray-600 dark:text-gray-300">Le poisson combattant, Betta splendens, parfois appelé combattant du Siam, est un poisson tropical originaire d'Asie du Sud-Est. Il réside dans les zones peu profondes des rizières et des ruisseaux...</p>
 
     <div class="flex gap-4">
-      <a href="{{ path('family_item', { id: fish.family.id }) }}" class="px-3 py-1 rounded-full border border-gray-100 text-sm font-medium text-primary transition duration-300 hover:border-transparent hover:bg-primary dark:hover:text-white dark:border-gray-700 dark:text-gray-300">{{ fish.family.name }}</a>
+      <a href="{{ path('fish_item', { id: fish.family.id }) }}" class="px-3 py-1 rounded-full border border-gray-100 text-sm font-medium text-primary transition duration-300 hover:border-transparent hover:bg-primary dark:hover:text-white dark:border-gray-700 dark:text-gray-300">{{ fish.family.name }}</a>
     </div>
   </div>
-</div>
+</div> #}
