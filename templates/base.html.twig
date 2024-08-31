@@ -11,10 +11,12 @@
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
-    <body class="p-10 bg-white dark:bg-green-950 dark:text-white">
+    <body class="container mx-auto px-4 bg-white dark:bg-green-950 dark:text-white">
+
         <header>
             {{ include('nav.html.twig') }}
         </header>
+
 
         {% block body %}
         

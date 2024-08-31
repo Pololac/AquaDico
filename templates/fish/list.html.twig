@@ -3,8 +3,17 @@
 {% block title %}Fiches{% endblock %}
 
 {% block body %}
-    <h1 class="text-4xl text-center font-bold mb-3">Les poissons</h1>
-    <p>Retrouvez l'ensemble des fiches techniques (paramètres, cohabitation, nourriture et bien plus) pour une maintenance idéale en aquarium au travers d'un moteur de recherche vous permettant de trouver votre population idéale.</p>
+    <div>
+        <h1 class="text-4xl text-center font-bold mb-3">Les poissons</h1>
+        <p>Retrouvez l'ensemble des fiches techniques (paramètres, cohabitation, nourriture et bien plus) pour une maintenance idéale en aquarium au travers d'un moteur de recherche vous permettant de trouver votre population idéale.</p>
+    </div>
+
+    <div>
+        {% include 'search/searchBar.html.twig' with {
+            'form': form
+        } only %}
+    </div>
+
 
     <div class="mt-4 flex items-center justify-center bg-gray-100">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">

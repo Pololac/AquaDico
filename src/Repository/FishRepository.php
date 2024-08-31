@@ -16,20 +16,18 @@ class FishRepository extends ServiceEntityRepository
         parent::__construct($registry, Fish::class);
     }
 
-//    /**
-//     * @return Fish[] Returns an array of Fish objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('f.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+   public function findBySearchQuery(string $query)
+   {
+        return $this->createQueryBuilder('f')
+        ->andWhere('f.name LIKE :query')
+        ->setParameter('query', '%' . $query . '%')
+        // ->orderBy('f.id', 'ASC')
+        // ->setMaxResults(10)
+        ->getQuery()
+        ->getResult()
+        ;
+
+   }
 
 //    public function findOneBySomeField($value): ?Fish
 //    {
