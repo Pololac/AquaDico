@@ -29,6 +29,11 @@ class Origin
         $this->fishes = new ArrayCollection();
     }
 
+    public function __tostring() 
+    {
+        return $this->continent;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
