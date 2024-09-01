@@ -5,9 +5,11 @@ namespace App\DataFixtures;
 use App\Entity\Fish;
 use App\Entity\FishFamily;
 use App\Entity\Origin;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
@@ -15,6 +17,10 @@ class AppFixtures extends Fixture
     private const ORIGIN_NAMES = ['Amérique du Nord', 'Amérique du Sud', 'Amérique centrale', 'Europe', 'Afrique', 'Asie'];
     private const FISHFAMILY_NAMES = ['Cyprinidés', 'Cichlidés', 'Poeciliidés', 'Notobranchiidés'];
 
+    public function __construct(
+        private UserPasswordHasherInterface $hasher
+    ){}
+    
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
@@ -51,16 +57,16 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < self::NB_CARDS; $i++) {
             $fish = new Fish();
             $fish
-                ->setName($faker->word())
+                ->setName($faker->words(2, true))
                 ->setLatinName($faker->sentence(2))
                 ->setDescription($faker->paragraphs(3, true))
                 ->setAdultSize($faker->randomDigitNotNull())
-                ->setMinTemp($faker->numberBetween(10, 30))
-                ->setMaxTemp($faker->numberBetween(10, 30))
-                ->setMinPh($faker->randomFloat(1, 1, 14))
-                ->setMaxPh($faker->randomFloat(1, 1, 14))
-                ->setMinGh($faker->numberBetween(1, 34))
-                ->setMaxGh($faker->numberBetween(1, 34))
+                ->setMinTemp($minTemp = $faker->numberBetween(10, 30))
+                ->setMaxTemp($faker->numberBetween($minTemp, 30))
+                ->setMinPh($minPh = $faker->randomFloat(1, 1, 14))
+                ->setMaxPh($faker->randomFloat(1, $minPh, 14))
+                ->setMinGh($minGh = $faker->numberBetween(1, 34))
+                ->setMaxGh($faker->numberBetween($minGh, 34))
                 ->setOrigin($faker->randomElement($origins))
                 ->setFamily($faker->randomElement($fishfamilies));
 
@@ -68,5 +74,24 @@ class AppFixtures extends Fixture
         }
 
         $manager->flush();
+
+        // --USERS-----------------------------
+        $admin = new User();
+        $admin
+            ->setEmail("admin@test.com")
+            ->setRoles(["ROLE_ADMIN"])
+            ->setPassword($this -> hasher ->hashPassword($admin, "admin1234"));
+
+        $manager->persist($admin);
+
+        $user = new User();
+        $user
+            ->setEmail("user@test.com")
+            ->setPassword($this -> hasher ->hashPassword($user, "user1234"));
+
+        $manager->persist($user);
+
+        $manager->flush();
+
     }
 }
