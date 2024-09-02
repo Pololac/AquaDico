@@ -16,6 +16,8 @@ class FishRepository extends ServiceEntityRepository
         parent::__construct($registry, Fish::class);
     }
 
+
+    
    public function findBySearchQuery(string $query)
    {
         return $this->createQueryBuilder('f')
