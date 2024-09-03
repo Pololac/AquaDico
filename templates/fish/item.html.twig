@@ -8,7 +8,21 @@
     <div class="container">
         <div class="flex flex-row">
             <div class="basis-2/5">
-                <img class="rounded-lg h-56 sm:h-full w-full object-cover object-top transition duration-500 group-hover:scale-105" src="{{ asset('images/poisson.jpg') }}" alt="fish picture" loading="lazy"/>
+                {% if fish.picFilename is not null %}
+                    <img class="rounded-lg h-56 sm:h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
+                    src="{{ '/uploads/fishes/' ~ fish.picFilename }}"
+                    alt="{{ fish.name }}"
+                    loading="lazy"/>
+                    />
+                {% endif %}
+                
+                {% else %}
+                    <img class="rounded-lg h-56 sm:h-full w-full object-cover object-top transition duration-500 group-hover:scale-105"
+                    src="{{ asset('images/poisson.jpg') }}"
+                    alt="default fish picture"
+                    loading="lazy"/>
+                {% endif %}
+
             </div>
             <div class="basis-3/5 content-center">
                 <div class="flex gap-4">
