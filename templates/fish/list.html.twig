@@ -10,6 +10,7 @@
         </div>
     </div>
 
+    {# BARRE DE RECHERCHE #}
     <div class="mt-4 mb-3 w-full">
         <div>
             {% include 'search/searchBar.html.twig' with {
@@ -17,7 +18,7 @@
             } only %}
         </div>
         <div class="text-right mb-8 mr-4"> 
-            <a href="{{ path ('fishes_add') }}" class="text-end px-6 py-3 text-white font-bold no-underline bg-blue-600 rounded-lg hover:bg-blue-800 hover:underline hover:text-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ajouter un poisson</a>
+            <a href="{{ path ('fishes_add') }}" class="text-end px-6 py-3 text-white font-bold no-underline bg-blue-700 rounded-lg hover:bg-blue-800 hover:underline hover:text-blue-200 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Ajouter un poisson</a>
         </div>
     </div>
 
@@ -32,14 +33,26 @@
         {% endfor %}
     {% endfor %}
 
-
-    <div class="mt-4 w-full bg-gray-100">
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
-
-            {% for fish in fishes %}
-                {% include 'fish/card.html.twig' with {'fish': fish} %}
-            {% endfor %}
-                    
+    <div class="flex">
+        <div class="mt-4 mr-4">
+            <h3 class="text-lg font-bold mb-3">Famille</h3>
+            <div class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                {% for family in families %}
+                    <a href="{{ path('family_item', { id: family.id }) }}" class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                        {{ family.name }}
+                    </a>
+                {% endfor %}
+            </div>
         </div>
+        <div class="mt-4 w-full bg-gray-100">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
+
+                {% for fish in fishes %}
+                    {% include 'fish/card.html.twig' with {'fish': fish} %}
+                {% endfor %}
+                        
+            </div>
+        </div> 
     </div>
+
 {% endblock %}

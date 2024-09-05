@@ -149,7 +149,7 @@ class AddFishType extends AbstractType
                 ],
             ])
 
-            ->add('picFilename', FileType::class, [
+            ->add('imageName', FileType::class, [
                 'label' => 'Image',
                 'mapped' => false,
                 'required' => false,

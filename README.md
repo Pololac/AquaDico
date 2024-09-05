@@ -12,10 +12,14 @@ A web application made for aquarium lovers where they can find information about
 ## Tech Stack
 
     1. Symfony
-    2. Symfony bundles : 
+    2. Main Symfony bundles : 
+        - Profiler
+        - Maker
+        - Security
         - Doctrine
         - Faker
         - EasyAdmin
+        - VichUploader
         - Tailwind
         - Flowbite (dont thème @TalesFromADev for forms)
 
@@ -26,7 +30,7 @@ A web application made for aquarium lovers where they can find information about
 * User can view the maintenance parameters of each fish.
 * User can search fish by the specie's name.
 * User can filter fish that belong to a given family (e.g. Cichlids), their continent of origin or their maintenance parameters.
-* User can add sheets of unreferenced fish.
+* User can add sheets of unreferenced fish if connected.
 * User can add/remove fish to/from a favorites list.
 
 

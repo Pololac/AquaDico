@@ -5,20 +5,27 @@ namespace App\Controller;
 use App\Entity\Fish;
 use App\Form\AddFishType;
 use App\Form\SearchType;
+use App\Repository\FishFamilyRepository;
 use App\Repository\FishRepository;
+use App\Repository\OriginRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FishController extends AbstractController
 {
     // AFFICHAGE DE TOUTES LES FICHES OU DE CELLES QUI CORRESPONDENT A LA RECHERCHE
     #[Route('/poissons', name: 'fishes_list', methods: ['GET'])]
-    public function list(Request $request, FishRepository $fishRepository): Response
+    public function list(Request $request, FishRepository $fishRepository, FishFamilyRepository $fishFamilyRepository, OriginRepository $originRepository): Response
     {
         $fishes = $fishRepository->findAll();
+        $families = $fishFamilyRepository->findAll();
+        $origins = $originRepository->findAll();
 
         //BARRE DE RECHERCHE
         $form = $this->createForm(SearchType::class);
@@ -47,11 +54,13 @@ class FishController extends AbstractController
         return $this->render('fish/list.html.twig', [
             'form' => $form->createView(),
             'fishes' => $fishes,
+            'origins' => $origins,
+            'families' => $families
         ]);
     }
 
-    // AFFICHAGE DE LA FICHE D'UN POISSON
-    #[Route('/poisson/{id}', name: 'fish_item')]
+    // AFFICHAGE DE LA FICHE D'UN POISSON (ajout d'une contrainte "nombre" sur l'id pr éviter un problème avec la route '/poissons/add' )
+    #[Route('/poissons/{id}', name: 'fish_item', requirements: ['id' => '\d+'])]
     public function item(Fish $fish): Response
     {        
          return $this->render('fish/item.html.twig', [
@@ -65,6 +74,7 @@ class FishController extends AbstractController
     public function addFish(
         Request $request,
         EntityManagerInterface $em,
+        SluggerInterface $slugger,
         ): Response
     {   
         $fish = new Fish();
@@ -73,26 +83,46 @@ class FishController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            /** @var \Symfony\Component\HttpFoundation\File\UploadedFile $imageName **/
+            $imageName = $form->get('imageName')->getData();
+
+            if ($imageName) {
+                $originalFilename = pathinfo($imageName->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $safeFilename = $slugger->slug($originalFilename);
+
+                $filename = $safeFilename . '-' . uniqid() . '.' . $imageName->guessExtension();
+
+                try {
+                    $imageName->move(
+                        'uploads/fishes/',
+                        $filename
+                    );
+                    // Si on n'est pas passé dans le catch, alors on peut enregistrer le nom du fichier
+                    // dans la propriété profilePicFilename de l'utilisateur
+                    $fish->setPicFilename($filename);
+                } catch (FileException $e) {
+                    $form->addError(new FormError("Erreur lors de l'upload du fichier"));
+                }
+            }
+            
             $em->persist($fish);
             $em->flush();
 
             $this->addFlash('success', 'Votre fiche a bien été ajoutée. Merci!');
             
-            return $this->render('fish/item.html.twig', [
-                'fish' => $fish,
-        ]);     // ERREUR 404 générée automatiquement
+            return $this->redirectToRoute('fish_item', [
+                'id' => $fish->getId(),
+            ]);
 
-            // return $this->redirectToRoute('add_confirm');
         }    
 
-         return $this->render('fish/add.html.twig', [
+        return $this->render('fish/add.html.twig', [
                 'addFish' => $form,
         ]);     // ERREUR 404 générée automatiquement
 
     }
-
-
-
 
 
     // #[Route('/poissons/{name}', name: 'fishfamily_item')]
