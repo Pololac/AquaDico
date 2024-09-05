@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Fiches{% endblock %}
+{% block title %}Continent{% endblock %}
 
 {% block body %}
     <div class="mt-4 w-full">
         <div>
-            <h2 class="text-4xl text-center font-bold mb-8">{{ family.name }}</h2>
+            <h2 class="text-4xl text-center font-bold mb-8">{{ origin.continent }}</h2>
         </div>
     </div>
 
@@ -35,7 +35,7 @@
     <div class="mt-4 w-full bg-gray-100">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
 
-            {% for fish in family.fishes %}
+            {% for fish in origin.fishes %}
                 {% include 'fish/card.html.twig' with {'fish': fish} %}
             {% endfor %}
                     

@@ -12,7 +12,7 @@ class FamilyController extends AbstractController
     #[Route('/poissons/famille/{id}', name: 'family_item')]
     public function item(FishFamily $family): Response
     {
-        return $this->render('family/list.html.twig', [
+        return $this->render('family/list.family.html.twig', [
             'family' => $family,
         ]);
     }

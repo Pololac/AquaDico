@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Fish;
 use App\Form\AddFishType;
+use App\Form\FilterParametersType;
 use App\Form\SearchType;
 use App\Repository\FishFamilyRepository;
 use App\Repository\FishRepository;
@@ -28,13 +29,12 @@ class FishController extends AbstractController
         $origins = $originRepository->findAll();
 
         //BARRE DE RECHERCHE
-        $form = $this->createForm(SearchType::class);
-                
-        $form->handleRequest($request);
+        $searchForm = $this->createForm(SearchType::class);
+        $searchForm->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
             // Récupérer les données du formulaire
-            $data = $form->getData();
+            $data = $searchForm->getData();
             $query = $data['query'];
 
             // Effectuer la recherche dans la base de données avec la fonction findBySearchQuery
@@ -45,19 +45,86 @@ class FishController extends AbstractController
             }
 
            return $this->render('fish/list.html.twig', [
-            'form' => $form->createView(),
-            'fishes' => $fishes,
-            ]);
-        }
-
-
-        return $this->render('fish/list.html.twig', [
-            'form' => $form->createView(),
+            'searchForm' => $searchForm->createView(),
+            'filterForm' => $filterForm->createView(),
             'fishes' => $fishes,
             'origins' => $origins,
             'families' => $families
-        ]);
+            ]);
+        }
+
+        //RECHERCHE PAR FILTRES AU NIVEAU DES PARAMETRES
+        $filterForm = $this->createForm(FilterParametersType::class);
+        $filterForm->handleRequest($request);
+
+        $criteria = [];
+
+        if ($filterForm->isSubmitted() && $filterForm->isValid()) {
+            $data = $filterForm->getData();
+
+            // Gestion de la température
+            if ($data['temperature']) {
+                $tempRange = explode('-', $data['temperature']);
+                $criteria['temperature'] = [
+                    'min' => $tempRange[0],
+                    'max' => $tempRange[1],
+                ];
+            }
+
+            // Gestion du pH
+            if ($data['ph']) {
+                $phRange = explode('-', $data['ph']);
+                $criteria['ph'] = [
+                    'min' => $phRange[0],
+                    'max' => $phRange[1],
+                ];
+            }
+
+            // Gestion du GH
+            if ($data['gh']) {
+                $ghRange = explode('-', $data['gh']);
+                $criteria['gh'] = [
+                    'min' => $ghRange[0],
+                    'max' => $ghRange[1],
+                ];
+            }
+
+            // Gestion de la taille adulte
+            if ($data['adultSize']) {
+                $sizeRange = explode('-', $data['adultSize']);
+                $criteria['adultSize'] = [
+                    'min' => $sizeRange[0],
+                    'max' => isset($sizeRange[1]) ? $sizeRange[1] : null,
+                ];
+            }
+
+            $fishes = $fishRepository->findByFilters($criteria);
+
+            return $this->render('fish/list.html.twig', [
+                'filterForm' => $filterForm,
+                'fishes' => $fishes,
+                'origins' => $origins,
+                'families' => $families
+            ]);
+
+        }
+
+        return $this->render('fish/list.html.twig', [
+            'searchForm' => $searchForm->createView(),
+            'filterForm' => $filterForm->createView(),
+            'fishes' => $fishes,
+            'origins' => $origins,
+            'families' => $families
+            ]);
+
+        // return $this->render('fish/list.html.twig', [
+        //     'form' => $form->createView(),
+        //     'fishes' => $fishes,
+        //     'origins' => $origins,
+        //     'families' => $families
+        // ]);
     }
+
 
     // AFFICHAGE DE LA FICHE D'UN POISSON (ajout d'une contrainte "nombre" sur l'id pr éviter un problème avec la route '/poissons/add' )
     #[Route('/poissons/{id}', name: 'fish_item', requirements: ['id' => '\d+'])]
@@ -68,6 +135,7 @@ class FishController extends AbstractController
         ]);     // ERREUR 404 générée automatiquement
 
     }
+
 
     //AJOUT D'UNE FICHE DE POISSON
     #[Route('/poissons/add', name: 'fishes_add', methods: ['GET', 'POST'])]

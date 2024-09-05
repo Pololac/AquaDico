@@ -19,9 +19,6 @@ class SearchType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Rechercher une espèce de poisson',
                 ]
-            // ])
-            // ->add('submit', SubmitType::class, [
-            //     'label'=> 'Recherche'
             ]);
     }
 
