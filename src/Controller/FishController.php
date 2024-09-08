@@ -43,14 +43,6 @@ class FishController extends AbstractController
             if (empty($fishes)) {
                 $this->addFlash('info', 'Aucun poisson trouvé pour cette recherche.');
             }
-
-           return $this->render('fish/list.html.twig', [
-            'searchForm' => $searchForm->createView(),
-            'filterForm' => $filterForm->createView(),
-            'fishes' => $fishes,
-            'origins' => $origins,
-            'families' => $families
-            ]);
         }
 
         //RECHERCHE PAR FILTRES AU NIVEAU DES PARAMETRES
@@ -62,50 +54,40 @@ class FishController extends AbstractController
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $data = $filterForm->getData();
 
+            // Gestion du continent
+            if ($data['continent']) {
+                $criteria['continent'] = $data['continent'];
+            }
+
             // Gestion de la température
             if ($data['temperature']) {
                 $tempRange = explode('-', $data['temperature']);
-                $criteria['temperature'] = [
-                    'min' => $tempRange[0],
-                    'max' => $tempRange[1],
-                ];
+                $criteria['minTemp'] = $tempRange[0];
+                $criteria['maxTemp'] = $tempRange[1];
             }
 
             // Gestion du pH
             if ($data['ph']) {
                 $phRange = explode('-', $data['ph']);
-                $criteria['ph'] = [
-                    'min' => $phRange[0],
-                    'max' => $phRange[1],
-                ];
+                $criteria['minPh'] = $phRange[0];
+                $criteria['maxPh'] = $phRange[1];
             }
 
             // Gestion du GH
             if ($data['gh']) {
                 $ghRange = explode('-', $data['gh']);
-                $criteria['gh'] = [
-                    'min' => $ghRange[0],
-                    'max' => $ghRange[1],
-                ];
+                $criteria['minGh'] = $ghRange[0];
+                $criteria['maxGh'] = $ghRange[1];
             }
 
             // Gestion de la taille adulte
             if ($data['adultSize']) {
                 $sizeRange = explode('-', $data['adultSize']);
-                $criteria['adultSize'] = [
-                    'min' => $sizeRange[0],
-                    'max' => isset($sizeRange[1]) ? $sizeRange[1] : null,
-                ];
+                $criteria['minAdultSize'] = $sizeRange[0];
+                $criteria['maxAdultSize'] = $sizeRange[1] ?? null;
             }
 
             $fishes = $fishRepository->findByFilters($criteria);
-
-            return $this->render('fish/list.html.twig', [
-                'filterForm' => $filterForm,
-                'fishes' => $fishes,
-                'origins' => $origins,
-                'families' => $families
-            ]);
 
         }
 
@@ -117,19 +99,14 @@ class FishController extends AbstractController
             'families' => $families
             ]);
 
-        // return $this->render('fish/list.html.twig', [
-        //     'form' => $form->createView(),
-        //     'fishes' => $fishes,
-        //     'origins' => $origins,
-        //     'families' => $families
-        // ]);
     }
 
 
     // AFFICHAGE DE LA FICHE D'UN POISSON (ajout d'une contrainte "nombre" sur l'id pr éviter un problème avec la route '/poissons/add' )
     #[Route('/poissons/{id}', name: 'fish_item', requirements: ['id' => '\d+'])]
     public function item(Fish $fish): Response
-    {        
+    {   
+
          return $this->render('fish/item.html.twig', [
                 'fish' => $fish,
         ]);     // ERREUR 404 générée automatiquement
@@ -138,7 +115,7 @@ class FishController extends AbstractController
 
 
     //AJOUT D'UNE FICHE DE POISSON
-    #[Route('/poissons/add', name: 'fishes_add', methods: ['GET', 'POST'])]
+    #[Route('/poisson/add', name: 'fishes_add', methods: ['GET', 'POST'])]
     public function addFish(
         Request $request,
         EntityManagerInterface $em,

@@ -35,33 +35,55 @@ class FishRepository extends ServiceEntityRepository
    {
        $qb = $this->createQueryBuilder('f');
 
-       // Filtrer par température
-       if (isset($criteria['temperature'])) {
-           $qb->andWhere('f.temperature BETWEEN :tempMin AND :tempMax')
-              ->setParameter('tempMin', $criteria['temperature']['min'])
-              ->setParameter('tempMax', $criteria['temperature']['max']);
-       }
+        // Filtrer par continent
+        if (isset($criteria['continent'])) {
+            $qb->andWhere('f.origin = :origin')
+            ->setParameter('origin', $criteria['continent']);
+        }
+
+        // Filtrer par température
+        if (isset($criteria['minTemp'])) {
+            $qb->andWhere('f.minTemp >= :minTemp')
+            ->setParameter('minTemp', $criteria['minTemp']);
+        }
+
+        if (isset($criteria['maxTemp'])) {
+            $qb->andWhere('f.maxTemp <= :maxTemp')
+            ->setParameter('maxTemp', $criteria['maxTemp']);
+        }
 
        // Filtrer par pH
-       if (isset($criteria['ph'])) {
-           $qb->andWhere('f.ph BETWEEN :phMin AND :phMax')
-              ->setParameter('phMin', $criteria['ph']['min'])
-              ->setParameter('phMax', $criteria['ph']['max']);
-       }
+        if (isset($criteria['minPh'])) {
+            $qb->andWhere('f.minPh >= :minPh')
+            ->setParameter('minPh', $criteria['minPh']);
+        }
+
+        if (isset($criteria['maxPh'])) {
+            $qb->andWhere('f.maxPh <= :maxPh')
+            ->setParameter('maxPh', $criteria['maxPh']);
+        }
 
        // Filtrer par GH
-       if (isset($criteria['gh'])) {
-           $qb->andWhere('f.gh BETWEEN :ghMin AND :ghMax')
-              ->setParameter('ghMin', $criteria['gh']['min'])
-              ->setParameter('ghMax', $criteria['gh']['max']);
-       }
+        if (isset($criteria['minGh'])) {
+            $qb->andWhere('f.minGh >= :minGh')
+            ->setParameter('minGh', $criteria['minGh']);
+        }
+
+        if (isset($criteria['maxGh'])) {
+            $qb->andWhere('f.maxGh <= :maxGh')
+            ->setParameter('maxGh', $criteria['maxGh']);
+        }
 
        // Filtrer par taille adulte
-       if (isset($criteria['adultSize'])) {
-           $qb->andWhere('f.adultSize BETWEEN :sizeMin AND :sizeMax')
-              ->setParameter('sizeMin', $criteria['adultSize']['min'])
-              ->setParameter('sizeMax', $criteria['adultSize']['max'] ?? 100); // Valeur par défaut pour '11+'
-       }
+        if (isset($criteria['minAdultSize'])) {
+            $qb->andWhere('f.adultSize >= :minAdultSize')
+            ->setParameter('minAdultSize', $criteria['minAdultSize']);
+        }
+
+        if (isset($criteria['maxAdultSize'])) {
+            $qb->andWhere('f.adultSize <= :maxAdultSize')
+            ->setParameter('maxAdultSize', $criteria['maxAdultSize']);
+        }
 
        return $qb->getQuery()->getResult();
    }

@@ -103,3 +103,9 @@ J'ai fait le choix d'ajouter des contraintes de validation directement dans le f
     1. Contrainte "NotBlank" pour obliger l'utilisateur a renseigner tous les champs.
     2. Contraintes "Range" sur pH et Gh car ces valeurs sont forcément comprises respectivement entre 1 et 14 / 1 et 34.
     3. Ajout de contraintes Callback sur maxTemp, maxPh et maxGh pour définir des règles de validation personnalisées qui garantissent que les valeurs max rentrées sont supérieures aux valeurs min. Ces contraintes font appel à des méthodes définies plus loin, qui type-hintent l'interface ExecutionContextInterface qui permet d'ajouter des messages de violations de validation.
+
+
+#### Slug pour les noms des familles de poissons
+1. Ajout d'une propriété "slug" dans mon entité .
+2. Type-hint de la SluggerInterface dans le construct de mon entité AppFixture (Fakear) pour générer le slug à partir du nom de la famille.
+3. Utilisation du {slug} dans la route de mon FamilyController. 

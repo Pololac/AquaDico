@@ -5,8 +5,8 @@
     </a>
     <div class="mx-5 my-2">
         <a href="{{ path('fish_item', { id: fish.id }) }}">
-            <h5 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white hover:text-blue-700">{{ fish.name }}</h5>
-            <span class="mb-1 inline-block font-normal italic text-gray-400 dark:text-gray-500">{{ fish.latinName }}</span>
+            <h5 class="mb-1 text-2xl font-bold tracking-tight truncate overflow-hidden whitespace-nowrap text-gray-900 dark:text-white hover:text-blue-700">{{ fish.name }}</h5>
+            <span class="mb-1 inline-block font-normal italic truncate overflow-hidden whitespace-nowrap text-gray-400 dark:text-gray-500">{{ fish.latinName }}</span>
         </a>
     </div>
   </div>

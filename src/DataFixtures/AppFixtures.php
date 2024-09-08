@@ -10,6 +10,8 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Factory;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 class AppFixtures extends Fixture
 {
@@ -18,7 +20,8 @@ class AppFixtures extends Fixture
     private const FISHFAMILY_NAMES = ['Cyprinidés', 'Cichlidés', 'Poeciliidés', 'Notobranchiidés'];
 
     public function __construct(
-        private UserPasswordHasherInterface $hasher
+        private UserPasswordHasherInterface $hasher, 
+        private SluggerInterface $slugger
     ){}
     
     public function load(ObjectManager $manager): void
@@ -46,6 +49,10 @@ class AppFixtures extends Fixture
         foreach (self::FISHFAMILY_NAMES as $fishfamilyName) {
             $fishfamily = new FishFamily();
             $fishfamily->setName($fishfamilyName);
+
+            // Générer un slug à partir du nom de la famille de poissons
+            $slug = $this->slugger->slug($fishfamilyName)->lower();
+            $fishfamily->setSlug($slug);
 
             $manager->persist($fishfamily);
 

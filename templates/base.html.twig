@@ -17,11 +17,19 @@
     <body class="container mx-auto px-4 bg-white dark:bg-green-950 dark:text-white">
 
         <header>
-
             {{ include('nav.html.twig') }}
-
         </header>
 
+        {# FLASH MESSAGES #}
+        {% for type, messages in app.flashes(['success', 'info', 'warning', 'danger']) %}
+            {% for message in messages %}
+                {% if type == 'info' %}
+                    <div class="p-4 mb-4 text-sm text-center text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+                        {{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
 
         {% block body %}
 

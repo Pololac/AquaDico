@@ -6,8 +6,10 @@ use App\Repository\FishFamilyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: FishFamilyRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class FishFamily
 {
     #[ORM\Id]
@@ -17,6 +19,9 @@ class FishFamily
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
+
+    #[ORM\Column(length: 255, unique: true)]
+    private ?string $slug = null;
 
     /**
      * @var Collection<int, Fish>
@@ -50,6 +55,28 @@ class FishFamily
 
         return $this;
     }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setSlugValue(SluggerInterface $slugger): void
+    {
+        if (!$this->slug) {
+            $this->slug = $slugger->slug($this->name)->lower();
+        }
+    }
+
 
     /**
      * @return Collection<int, Fish>

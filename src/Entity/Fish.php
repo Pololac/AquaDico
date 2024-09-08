@@ -32,6 +32,7 @@ class Fish
     #[ORM\Column(nullable: true)]
     private ?int $maxTemp = null;
 
+    
     #[ORM\Column(nullable: true)]
     private ?float $minPh = null;
 

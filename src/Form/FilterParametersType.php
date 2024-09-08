@@ -2,7 +2,8 @@
 
 namespace App\Form;
 
-use App\Entity\Fish;
+use App\Entity\Origin;
+use App\Repository\OriginRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -14,6 +15,21 @@ class FilterParametersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            //Filtre par continent
+            ->add('continent', EntityType::class, [
+                'class' => Origin::class,
+                'choice_label' => 'continent',
+                'required' => false,
+                'label' => 'Continent',
+                'expanded' => false, // Menu déroulant
+                'multiple' => false, // Simple choix
+                'query_builder' => function (OriginRepository $repo) {
+                    return $repo->createQueryBuilder('o')
+                        ->orderBy('o.continent', 'ASC');
+                },
+            ])
+
+
             // Température avec des plages prédéfinies entre 10°C et 30 °C
             ->add('temperature', ChoiceType::class, [
                 'choices' => [
@@ -24,6 +40,7 @@ class FilterParametersType extends AbstractType
                 'required' => false,
                 'label' => 'Température (°C)',
             ])
+
             // pH avec des plages prédéfinies entre 1 et 14
             ->add('ph', ChoiceType::class, [
                 'choices' => [
@@ -36,6 +53,7 @@ class FilterParametersType extends AbstractType
                 'required' => false,
                 'label' => 'pH',
             ])
+
             // GH avec des plages prédéfinies entre 1 et 34)
             ->add('gh', ChoiceType::class, [
                 'choices' => [
@@ -52,6 +70,7 @@ class FilterParametersType extends AbstractType
                 'required' => false,
                 'label' => 'GH',
             ])
+
             // Taille adulte avec des plages prédéfinies (exemple de tailles)
             ->add('adultSize', ChoiceType::class, [
                 'choices' => [
@@ -67,10 +86,18 @@ class FilterParametersType extends AbstractType
             ]);
     }
 
+    // Cette méthode permet de supprimer l'ajout du prefixe "filter_parameters" devant les paramètres dans l'URL
+    public function getBlockPrefix(): string
+    {
+        return '';
+    }
+
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Fish::class,
+            'method' => 'GET',
+            'csrf_protection' => false
         ]);
     }
 }
