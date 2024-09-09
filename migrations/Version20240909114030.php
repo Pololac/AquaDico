@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240908165545 extends AbstractMigration
+final class Version20240909114030 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,12 +20,12 @@ final class Version20240908165545 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_F58D9F95989D9B62 ON fish_family (slug)');
+        $this->addSql('ALTER TABLE user ADD is_verified TINYINT(1) NOT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('DROP INDEX UNIQ_F58D9F95989D9B62 ON fish_family');
+        $this->addSql('ALTER TABLE user DROP is_verified');
     }
 }

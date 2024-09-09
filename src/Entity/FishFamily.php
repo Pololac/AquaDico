@@ -20,7 +20,7 @@ class FishFamily
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255, unique: false)]    //Mis en false pour le dev
     private ?string $slug = null;
 
     /**
@@ -68,14 +68,15 @@ class FishFamily
         return $this;
     }
 
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function setSlugValue(SluggerInterface $slugger): void
-    {
-        if (!$this->slug) {
-            $this->slug = $slugger->slug($this->name)->lower();
-        }
-    }
+    //Mis en pause le temps du dev (utilisation AppFixtures)
+    // #[ORM\PrePersist]    
+    // #[ORM\PreUpdate]
+    // public function setSlugValue(SluggerInterface $slugger): void
+    // {
+    //     if (!$this->slug) {
+    //         $this->slug = $slugger->slug($this->name)->lower();
+    //     }
+    // }
 
 
     /**

@@ -44,4 +44,9 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form,
         ]);
     }
+
+    #[Route('/register/thanks', name: "registration_confirm")]
+    public function newsletterConfirm() : Response{
+        return $this->render('registration/registration.html.twig');
+    }
 }
