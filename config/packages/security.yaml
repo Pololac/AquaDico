@@ -35,7 +35,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/poissons/add, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/poissons/ajout, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:

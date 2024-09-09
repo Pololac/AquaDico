@@ -115,7 +115,7 @@ class FishController extends AbstractController
 
 
     //AJOUT D'UNE FICHE DE POISSON
-    #[Route('/poisson/add', name: 'fishes_add', methods: ['GET', 'POST'])]
+    #[Route('/poissons/ajout', name: 'fishes_add', methods: ['GET', 'POST'])]
     public function addFish(
         Request $request,
         EntityManagerInterface $em,
