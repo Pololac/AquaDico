@@ -15,9 +15,9 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AppFixtures extends Fixture
 {
-    private const NB_CARDS = 50;
+    private const NB_CARDS = 150;
     private const ORIGIN_NAMES = ['Amérique du Nord', 'Amérique du Sud', 'Amérique centrale', 'Europe', 'Afrique', 'Asie'];
-    private const FISHFAMILY_NAMES = ['Cyprinidés', 'Cichlidés', 'Poeciliidés', 'Notobranchiidés'];
+    private const FISHFAMILY_NAMES = ['Cyprinidés', 'Cichlidés', 'Poeciliidés', 'Notobranchiidés', 'Characidés', 'Loricariidés', 'callichtyidés', 'Osphronemidés', 'gobiidés'];
 
     public function __construct(
         private UserPasswordHasherInterface $hasher, 
@@ -28,14 +28,16 @@ class AppFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-
-
         // --ORIGINES-----------------------------
         $origins = [];
 
         foreach (self::ORIGIN_NAMES as $originName) {
             $origin = new Origin();
             $origin->setContinent($originName);
+
+            // Générer un slug à partir du continent d'origine
+            $slug = $this->slugger->slug($originName)->lower();
+            $origin->setSlug($slug);
 
             $manager->persist($origin);
 
@@ -64,9 +66,9 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < self::NB_CARDS; $i++) {
             $fish = new Fish();
             $fish
-                ->setName($faker->words(2, true))
-                ->setLatinName($faker->sentence(2))
-                ->setDescription($faker->paragraphs(3, true))
+                ->setName($faker->sentence(2, false))
+                ->setLatinName($faker->words(2, true))
+                ->setDescription($faker->realText(1000))
                 ->setAdultSize($faker->randomDigitNotNull())
                 ->setMinTemp($minTemp = $faker->numberBetween(10, 30))
                 ->setMaxTemp($faker->numberBetween($minTemp, 30))

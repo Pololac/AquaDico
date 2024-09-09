@@ -14,13 +14,13 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class OriginController extends AbstractController
 {
-    #[Route('/poissons/continent/{id}', name: 'origin_item')]
+    #[Route('/poissons/continent/{slug}', name: 'origin_item')]
     public function list(
         Request $request,
         FishRepository $fishRepository,
         FishFamilyRepository $fishFamilyRepository,
         OriginRepository $originRepository,
-        int $id // Ajout de l'ID du continent comme paramètre
+        string $slug // Ajout du slug de la famille comme paramètre
         ): Response
     {
       
@@ -28,13 +28,13 @@ class OriginController extends AbstractController
         $origins = $originRepository->findAll();
         
         // Recherche du continent par ID
-        $continent = $originRepository->find($id);
+        $continent = $originRepository->findOneBySlug($slug);
 
         // Récupère les poissons liés au continent sélectionné
         $fishes = $fishRepository->createQueryBuilder('f')
             ->join('f.origin', 'o')
-            ->where('o.id = :continentId')
-            ->setParameter('continentId', $id)
+            ->where('o.slug = :continentSlug')
+            ->setParameter('continentSlug', $slug)
             ->getQuery()
             ->getResult();
             

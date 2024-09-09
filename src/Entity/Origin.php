@@ -6,8 +6,10 @@ use App\Repository\OriginRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: OriginRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Origin
 {
     #[ORM\Id]
@@ -17,6 +19,9 @@ class Origin
 
     #[ORM\Column(length: 255)]
     private ?string $continent = null;
+
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    private ?string $slug = null;
 
     /**
      * @var Collection<int, Fish>
@@ -50,6 +55,29 @@ class Origin
 
         return $this;
     }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    // A désactiver en dév pour pouvoir générer data avec Faker
+    #[ORM\PrePersist]    
+    #[ORM\PreUpdate]
+    public function setSlugValue(SluggerInterface $slugger): void
+    {
+        if (!$this->slug) {
+            $this->slug = $slugger->slug($this->name)->lower();
+        }
+    }
+
 
     /**
      * @return Collection<int, Fish>

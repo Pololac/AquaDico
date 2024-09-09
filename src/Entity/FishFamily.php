@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[ORM\Entity(repositoryClass: FishFamilyRepository::class)]
-#[ORM\HasLifecycleCallbacks]
+#[ORM\HasLifecycleCallbacks]    // Pour appeler les méthodes d'évènements (notamment pour le slug)
 class FishFamily
 {
     #[ORM\Id]
@@ -20,7 +20,7 @@ class FishFamily
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, unique: false)]    //Mis en false pour le dev
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $slug = null;
 
     /**
@@ -68,15 +68,15 @@ class FishFamily
         return $this;
     }
 
-    //Mis en pause le temps du dev (utilisation AppFixtures)
-    // #[ORM\PrePersist]    
-    // #[ORM\PreUpdate]
-    // public function setSlugValue(SluggerInterface $slugger): void
-    // {
-    //     if (!$this->slug) {
-    //         $this->slug = $slugger->slug($this->name)->lower();
-    //     }
-    // }
+    // A désactiver en dév pour pouvoir générer data avec Faker
+    #[ORM\PrePersist]    
+    #[ORM\PreUpdate]
+    public function setSlugValue(SluggerInterface $slugger): void
+    {
+        if (!$this->slug) {
+            $this->slug = $slugger->slug($this->name)->lower();
+        }
+    }
 
 
     /**
