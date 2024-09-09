@@ -48,6 +48,9 @@ class Fish
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $picFilename = null;
 
+    #[ORM\Column]
+    private ?bool $isVisible = null;
+
     #[ORM\ManyToOne(inversedBy: 'fishes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?FishFamily $family = null;
@@ -55,7 +58,6 @@ class Fish
     #[ORM\ManyToOne(inversedBy: 'fishes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Origin $origin = null;
-
 
 
     public function getId(): ?int
@@ -215,6 +217,18 @@ class Fish
     public function setOrigin(?Origin $origin): static
     {
         $this->origin = $origin;
+
+        return $this;
+    }
+
+    public function isVisible(): ?bool
+    {
+        return $this->isVisible;
+    }
+
+    public function setVisible(bool $isVisible): static
+    {
+        $this->isVisible = $isVisible;
 
         return $this;
     }

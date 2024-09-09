@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240909201325 extends AbstractMigration
+final class Version20240909205507 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,7 +20,7 @@ final class Version20240909201325 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE fish (id INT AUTO_INCREMENT NOT NULL, family_id INT NOT NULL, origin_id INT NOT NULL, name VARCHAR(255) NOT NULL, latin_name VARCHAR(255) DEFAULT NULL, description LONGTEXT NOT NULL, adult_size INT DEFAULT NULL, min_temp INT DEFAULT NULL, max_temp INT DEFAULT NULL, min_ph DOUBLE PRECISION DEFAULT NULL, max_ph DOUBLE PRECISION DEFAULT NULL, min_gh INT DEFAULT NULL, max_gh INT DEFAULT NULL, pic_filename VARCHAR(255) DEFAULT NULL, INDEX IDX_3F744433C35E566A (family_id), INDEX IDX_3F74443356A273CC (origin_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE fish (id INT AUTO_INCREMENT NOT NULL, family_id INT NOT NULL, origin_id INT NOT NULL, name VARCHAR(255) NOT NULL, latin_name VARCHAR(255) DEFAULT NULL, description LONGTEXT NOT NULL, adult_size INT DEFAULT NULL, min_temp INT DEFAULT NULL, max_temp INT DEFAULT NULL, min_ph DOUBLE PRECISION DEFAULT NULL, max_ph DOUBLE PRECISION DEFAULT NULL, min_gh INT DEFAULT NULL, max_gh INT DEFAULT NULL, pic_filename VARCHAR(255) DEFAULT NULL, is_visible TINYINT(1) NOT NULL, INDEX IDX_3F744433C35E566A (family_id), INDEX IDX_3F74443356A273CC (origin_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE fish_family (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_F58D9F95989D9B62 (slug), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE origin (id INT AUTO_INCREMENT NOT NULL, continent VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_DEF1561E989D9B62 (slug), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE user (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, is_verified TINYINT(1) NOT NULL, UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL (email), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');

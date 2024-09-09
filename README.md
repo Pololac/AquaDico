@@ -96,16 +96,29 @@ To run this project, you will need to add the following environment variables to
 
 ## Development explanations
 
-#### Formulaire d'ajout d'une fiche poisson
 
+#### Slug pour les noms des familles de poissons & de l'origine
+1. Ajout d'une propriété "slug" dans mon entité .
+2. Type-hint de la SluggerInterface dans le construct de mon entité AppFixture (Fakear) pour générer le slug à partir du nom de la famille
+3. Utilisation du {slug} au niveau des routes : ajout du nom de l'entité concerné après /poissons/ car sinon bug généré par la ressemblance avec la route /poissons/{id}
+Remarque : la fonction de slug automatique  "public function setSlugValue(SluggerInterface $slugger)" doit être désactiver lors du développement car incompatible avec la génération des Fixtures avec Fakear.
+
+
+### Ajout d'un formulaire de Registration & Login 
+#### Login
+* Injection du service de hachage de mot de passe dans la classe AppFixtures en type-hintant l'interface du PasswordHasher directement dans le constructeur.
+* Création d'un formulaire de login via la commande `make:security:form-login`
+
+#### Registration
+* Ajout de la propriété $isVerified à l'entité User, utilisée pour indiquer que l'utilisateur a bien confirmé son adresse email via un email de confirmation (pass alors en "true"). Propriété non testée dans l'application actuelle
+
+#### Sécurité & Autorisations
+### Formulaire d'ajout d'une fiche poisson
+* Autorisé uniquement pour les utilisateurs connectés : 
 J'ai fait le choix d'ajouter des contraintes de validation directement dans le formulaire et non au niveau de l'entité pour signaler des problèmes de saisie à l'utilisateur le plus tôt possible :
 
     1. Contrainte "NotBlank" pour obliger l'utilisateur a renseigner tous les champs.
     2. Contraintes "Range" sur pH et Gh car ces valeurs sont forcément comprises respectivement entre 1 et 14 / 1 et 34.
     3. Ajout de contraintes Callback sur maxTemp, maxPh et maxGh pour définir des règles de validation personnalisées qui garantissent que les valeurs max rentrées sont supérieures aux valeurs min. Ces contraintes font appel à des méthodes définies plus loin, qui type-hintent l'interface ExecutionContextInterface qui permet d'ajouter des messages de violations de validation.
 
-
-#### Slug pour les noms des familles de poissons
-1. Ajout d'une propriété "slug" dans mon entité .
-2. Type-hint de la SluggerInterface dans le construct de mon entité AppFixture (Fakear) pour générer le slug à partir du nom de la famille.
-3. Utilisation du {slug} dans la route de mon FamilyController. 
+### Formulaire d'ajout d'une fiche poisson

@@ -77,7 +77,8 @@ class AppFixtures extends Fixture
                 ->setMinGh($minGh = $faker->numberBetween(1, 34))
                 ->setMaxGh($faker->numberBetween($minGh, 34))
                 ->setOrigin($faker->randomElement($origins))
-                ->setFamily($faker->randomElement($fishfamilies));
+                ->setFamily($faker->randomElement($fishfamilies))
+                ->setVisible($faker->boolean(80));
 
             $manager->persist($fish);
         }

@@ -69,14 +69,14 @@ class FishFamily
     }
 
     // A désactiver en dév pour pouvoir générer data avec Faker
-    #[ORM\PrePersist]    
-    #[ORM\PreUpdate]
-    public function setSlugValue(SluggerInterface $slugger): void
-    {
-        if (!$this->slug) {
-            $this->slug = $slugger->slug($this->name)->lower();
-        }
-    }
+    // #[ORM\PrePersist]    
+    // #[ORM\PreUpdate]
+    // public function setSlugValue(SluggerInterface $slugger): void
+    // {
+    //     if (!$this->slug) {
+    //         $this->slug = $slugger->slug($this->name)->lower();
+    //     }
+    // }
 
 
     /**
