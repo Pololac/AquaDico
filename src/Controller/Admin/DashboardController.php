@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\FishFamily;
 use App\Entity\Origin;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -38,13 +39,26 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Hb R6 Sf Aqua');
+            ->setTitle('<class="img-fluid d-block mx-auto" style="max-width:100px; width:100%;"><h2 class="mt-3 fw-bold text-gray text-center">AquaDico Dashboard</h2>');
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Poissons', 'fa fa-home');
-        yield MenuItem::linkToCrud('Familles', 'fa fa-list', FishFamily::class);
-        yield MenuItem::linkToCrud('Origine', 'fa fa-list', Origin::class);
+        yield MenuItem::linkToUrl('Retour sur la page d\'accueil', 'fas fa-home', $this->generateUrl('homepage'));
+        yield MenuItem::linkToDashboard('Poissons', 'fa-solid fa-fish');
+        yield MenuItem::linkToCrud('Familles', 'fa-solid fa-group-arrows-rotate', FishFamily::class);
+        yield MenuItem::linkToCrud('Origine', 'fa-solid fa-earth-americas', Origin::class);
+
+    }
+
+    public function configureCrud(): Crud
+    {
+        return parent::configureCrud()
+            ->renderContentMaximized()
+            ->setDefaultSort([
+                'id' => 'DESC',
+            ])
+            ->setPaginatorPageSize(15)
+            ->showEntityActionsInlined(true);
     }
 }

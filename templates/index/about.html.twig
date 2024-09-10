@@ -1,12 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}A propos{% endblock %}
+{% block title %}À propos - AquaDico{% endblock %}
 
 {% block body %}
+<div class="container mx-auto px-4 py-8 mb-20">
+    <h1 class="text-4xl font-bold text-center text-blue-800 dark:text-blue-400 mb-10">À propos d'AquaDico</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 ">
+        <div class="space-y-5 content-center">
+            <p class="text-base text-black dark:text-blue-400">
+                Bienvenue sur AquaDico, votre guide complet pour découvrir et choisir les meilleurs poissons d'aquarium tropicaux. 
+                Notre mission est de fournir des informations précises et détaillées pour aider les amateurs et aquariophiles 
+                passionnés à sélectionner les espèces adaptées à leurs aquariums, en tenant compte des biotopes et des conditions 
+                de maintenance comme la température, le pH ou la dureté de l'eau.
+            </p>
+            <p class="text-base text-black dark:text-blue-400">
+                Que vous soyez un débutant ou un aquariophile expérimenté, AquaDico est conçu pour être une ressource accessible 
+                et informative. Explorez nos fiches de poissons pour découvrir des conseils sur la compatibilité des espèces, 
+                des recommandations sur les soins à apporter, et bien plus encore.
+            </p>
+        </div>
+        <div class="flex items-center justify-center">
+            <img src="{{ asset('images/discus.jpg') }}" alt="Aquarium tropical"
+                class="rounded-lg shadow-lg">
+        </div>
+    </div>
 
-<div>
-    <h1 class="text-bold text-center">A propos</h1>
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="flex flex-col items-center text-center">
+            <img src="{{ asset('images/poissons.webp') }}" alt="Discus"
+                class="object-cover w-80 h-50 rounded-lg mb-4">
+            <h3 class="text-xl font-bold mb-4 text-blue-800 dark:text-blue-400">Large Sélection</h3>
+            <p class="text-black dark:text-blue-400">
+                Explorez une large sélection de fiches de poissons pour trouver les espèces qui conviennent à votre aquarium.
+            </p>
+        </div>
+        <div class="flex flex-col items-center text-center">
+            <img src="{{ asset('images/compatibilite.jpeg') }}" alt="Poissons compatibles"
+                class="w-80 h-50 rounded-lg mb-4">
+            <h3 class="text-xl font-bold mb-4 text-blue-800 dark:text-blue-400">Compatibilité</h3>
+            <p class="text-black dark:text-blue-400">
+                Assurez-vous de la compatibilité des espèces pour créer un écosystème harmonieux et florissant.
+            </p>
+        </div>
+        <div class="flex flex-col items-center text-center">
+            <img src="{{ asset('images/expert.webp') }}" alt="Experts Aquascaping"
+                class="w-80 h-50 rounded-lg mb-4">
+            <h3 class="text-xl font-bold mb-4 text-blue-800 dark:text-blue-400">Conseils Experts</h3>
+            <p class="text-black dark:text-blue-400">
+                Profitez de conseils d'experts pour maintenir un environnement sain et équilibré pour vos poissons.
+            </p>
+        </div>
+    </div>
 
-
+    <div class="mt-16 text-right">
+        <a href="{{ path('homepage') }}" class="bg-blue-800 text-white px-6 py-3 rounded-md shadow-md hover:bg-blue-700 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700">
+            Retour à l'accueil
+        </a>
+    </div>
 </div>
 {% endblock %}

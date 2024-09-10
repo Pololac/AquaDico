@@ -39,5 +39,4 @@ class FishCrudController extends AbstractCrudController
 
         yield BooleanField::new('isVisible', 'Visible');
     }
-    
 }

@@ -77,7 +77,7 @@ If you have cloned the project, the migrations are most likely already available
 ```
 
 #### Loading Test Data (Fixtures)
-Finally, once the database is created and the structure is in place, you have to import test data: the fixtures.
+Finally, once the database is created and the structure is in place, you have to import test data: the fixtures. They have been generated with the bundle Faker.
 
 Like the migrations, the fixtures are likely already part of the codebase, so you can execute them directly:
 
@@ -88,39 +88,44 @@ Like the migrations, the fixtures are likely already part of the codebase, so yo
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need to add the following environment variables to your .env file :
 
-`API_KEY`
+`DATABASE_URL`
 
-`ANOTHER_API_KEY`
+`MAILER_DSN`
 
 
 ## Development explanations
 
 
-#### Slug pour les noms des familles de poissons & de l'origine
-1. Ajout d'une propriété "slug" dans mon entité .
-2. Type-hint de la SluggerInterface dans le construct de mon entité AppFixture (Fakear) pour générer le slug à partir du nom de la famille
-3. Utilisation du {slug} au niveau des routes : ajout du nom de l'entité concerné après /poissons/ car sinon bug généré par la ressemblance avec la route /poissons/{id}
-Remarque : la fonction de slug automatique  "public function setSlugValue(SluggerInterface $slugger)" doit être désactiver lors du développement car incompatible avec la génération des Fixtures avec Fakear.
+#### Slug for FishFamily & Origin
+1. Added a "slug" property to my entity.
+2. Type-hinted the SluggerInterface in the constructor of my AppFixture entity (Fakear) to generate the slug from the family name.
+3. Used the {slug} in routes: added the name of the concerned entity after /fishes/ to avoid issues caused by similarities with the /fishes/{id} route.
+
+Note: The automatic slug function "public function setSlugValue(SluggerInterface $slugger)" should be disabled during development because it is incompatible with Fixture generation using Fakear.
 
 
-#### Ajout d'un formulaire de Registration & Login 
-### Login
+#### Fonctions de recherche
+
+
+
+### Ajout d'un formulaire de Registration & Login 
+#### Login
 * Injection du service de hachage de mot de passe dans la classe AppFixtures en type-hintant l'interface du PasswordHasher directement dans le constructeur.
 * Création d'un formulaire de login via la commande `make:security:form-login`
 
-### Registration
+#### Registration
 * Ajout de la propriété $isVerified à l'entité User, utilisée pour indiquer que l'utilisateur a bien confirmé son adresse email via un email de confirmation (pass alors en "true"). Propriété non testée dans l'application actuelle.
 * Les messages Flash n'étant pas pris en charge par Tailwind, je passe le message de succès d'enregistrement via un paramètre de la fonction redirectToRoute.
 
-### Reset Password
+#### Reset Password
 * Ajout de la fonctionnalité via SymfonyCastsResetPasswordBundle : `composer require symfonycasts/reset-password-bundle`
 * Installation de la fonctionnalité via la commande : `php bin/console make:reset-password`
 
 
-#### Sécurité & Autorisations
-### Formulaire d'ajout d'une fiche poisson
+### Sécurité & Autorisations
+#### Formulaire d'ajout d'une fiche poisson
 * Autorisé uniquement pour les utilisateurs connectés : 
 J'ai fait le choix d'ajouter des contraintes de validation directement dans le formulaire et non au niveau de l'entité pour signaler des problèmes de saisie à l'utilisateur le plus tôt possible :
 
@@ -128,4 +133,13 @@ J'ai fait le choix d'ajouter des contraintes de validation directement dans le f
     2. Contraintes "Range" sur pH et Gh car ces valeurs sont forcément comprises respectivement entre 1 et 14 / 1 et 34.
     3. Ajout de contraintes Callback sur maxTemp, maxPh et maxGh pour définir des règles de validation personnalisées qui garantissent que les valeurs max rentrées sont supérieures aux valeurs min. Ces contraintes font appel à des méthodes définies plus loin, qui type-hintent l'interface ExecutionContextInterface qui permet d'ajouter des messages de violations de validation.
 
-### Formulaire d'ajout d'une fiche poisson
+#### Dashboard de gestion
+* Généré avec le bundle EasyAdmin
+* Autorisé uniquement pour les utilisateurs ayant le rôle ADMIN.
+* Menu accessible via le menu déroulant des comptes admin
+* Interface légèrement améliorée via l'ajout d'une fonction "public function configureCrud(): Crud"
+* Les administrateurs peuvent modifier les fiches de poisson : ajout/modification/suppression
+* Ils peuvent aussi modifier les noms de familles de poissons et les continents d'origine
+
+### Fonctionnalités restant à développer
+1. 

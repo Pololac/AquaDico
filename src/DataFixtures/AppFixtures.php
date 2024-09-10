@@ -17,7 +17,7 @@ class AppFixtures extends Fixture
 {
     private const NB_CARDS = 150;
     private const ORIGIN_NAMES = ['Amérique du Nord', 'Amérique du Sud', 'Amérique centrale', 'Europe', 'Afrique', 'Asie'];
-    private const FISHFAMILY_NAMES = ['Cyprinidés', 'Cichlidés', 'Poeciliidés', 'Notobranchiidés', 'Characidés', 'Loricariidés', 'callichtyidés', 'Osphronemidés', 'gobiidés'];
+    private const FISHFAMILY_NAMES = ['Cyprinidés', 'Cichlidés', 'Poeciliidés', 'Notobranchiidés', 'Characidés', 'Loricariidés', 'Callichtyidés', 'Osphronemidés', 'Gobiidés'];
 
     public function __construct(
         private UserPasswordHasherInterface $hasher, 

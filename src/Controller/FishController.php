@@ -22,7 +22,7 @@ class FishController extends AbstractController
 {
     // AFFICHAGE DE TOUTES LES FICHES OU DE CELLES QUI CORRESPONDENT A LA RECHERCHE
     #[Route('/poissons', name: 'fishes_list', methods: ['GET'])]
-    public function list(Request $request, FishRepository $fishRepository, FishFamilyRepository $fishFamilyRepository, OriginRepository $originRepository): Response
+    public function list(Request $request, FishRepository $fishRepository): Response
     {
         $fishes = $fishRepository->findAll();
         $familiesCount = $fishRepository->countByFamily();
