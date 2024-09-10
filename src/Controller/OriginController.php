@@ -29,6 +29,9 @@ class OriginController extends AbstractController
 
         // Récupère les poissons liés au continent sélectionné
         $fishes = $fishRepository->findByOrigin($slug);
+        $visibleFishes = array_filter($fishes, function($fish) {
+            return $fish->isVisible();
+        });
 
         //RECHERCHE PAR FILTRES AU NIVEAU DES PARAMETRES
         $filterForm = $this->createForm(FilterParametersType::class);
@@ -71,12 +74,14 @@ class OriginController extends AbstractController
 
             // Récupère les poissons selon les critères
             $fishes = $fishRepository->findByFilters($criteria);
-
+            $visibleFishes = array_filter($fishes, function($fish) {
+                return $fish->isVisible();
+            });
         }
 
         return $this->render('origin/list.origin.html.twig', [
             'filterForm' => $filterForm->createView(),
-            'fishes' => $fishes,
+            'fishes' => $visibleFishes,
             'familiesCount' => $familiesCount,
             'originsCount' => $originsCount,
             'origin' => $origin,

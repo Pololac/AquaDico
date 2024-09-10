@@ -24,7 +24,11 @@ class FishController extends AbstractController
     #[Route('/poissons', name: 'fishes_list', methods: ['GET'])]
     public function list(Request $request, FishRepository $fishRepository): Response
     {
-        $fishes = $fishRepository->findAll();
+        $fishes = $fishRepository->findAllByDescendingId();
+        $visibleFishes = array_filter($fishes, function($fish) {
+            return $fish->isVisible();
+        });
+
         $familiesCount = $fishRepository->countByFamily();
         $originsCount = $fishRepository->countByOrigin();
 
@@ -39,6 +43,9 @@ class FishController extends AbstractController
 
             // Effectuer la recherche dans la base de données avec la fonction findBySearchQuery
             $fishes = $fishRepository->findBySearchQuery($query);
+            $visibleFishes = array_filter($fishes, function($fish) {
+                return $fish->isVisible();
+            });
 
             if (empty($fishes)) {
                 $this->addFlash('info', 'Aucun poisson trouvé pour cette recherche.');
@@ -83,13 +90,16 @@ class FishController extends AbstractController
             }
 
             $fishes = $fishRepository->findByFilters($criteria);
+            $visibleFishes = array_filter($fishes, function($fish) {
+                return $fish->isVisible();
+            });
 
         }
 
         return $this->render('fish/list.html.twig', [
             'searchForm' => $searchForm->createView(),
             'filterForm' => $filterForm->createView(),
-            'fishes' => $fishes,
+            'fishes' => $visibleFishes,
             'familiesCount' => $familiesCount,
             'originsCount' => $originsCount,
             ]);

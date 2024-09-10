@@ -124,22 +124,39 @@ Note: The automatic slug function "public function setSlugValue(SluggerInterface
 * Installation de la fonctionnalité via la commande : `php bin/console make:reset-password`
 
 
+### Ajout d'un formulaire d'inscription à la newsletter 
+* Création d'une entité et d'un controleur dédié
+* Validation que l'email rentré est bien un email et est unique via des contraintes passées en attributs de la classe de l'entité
+* Création d'un service applicatif d'envoi automatique d'email à l'enregistrement de l'email dans la base de données (via une classe NewsletterConfirmation dédiée, dans laquelle on injecte le MailerInterface) : vérification de l'envoi du mail via un serveur SMTP local MailTrap conteneurisé dans Docker.
+
+
 ### Sécurité & Autorisations
 #### Formulaire d'ajout d'une fiche poisson
-* Autorisé uniquement pour les utilisateurs connectés : 
-J'ai fait le choix d'ajouter des contraintes de validation directement dans le formulaire et non au niveau de l'entité pour signaler des problèmes de saisie à l'utilisateur le plus tôt possible :
+* Autorisé uniquement pour les utilisateurs connectés
 
+* J'ai fait le choix d'ajouter des contraintes de validation directement dans le formulaire et non au niveau de l'entité pour signaler des problèmes de saisie à l'utilisateur le plus tôt possible :
     1. Contrainte "NotBlank" pour obliger l'utilisateur a renseigner tous les champs.
     2. Contraintes "Range" sur pH et Gh car ces valeurs sont forcément comprises respectivement entre 1 et 14 / 1 et 34.
     3. Ajout de contraintes Callback sur maxTemp, maxPh et maxGh pour définir des règles de validation personnalisées qui garantissent que les valeurs max rentrées sont supérieures aux valeurs min. Ces contraintes font appel à des méthodes définies plus loin, qui type-hintent l'interface ExecutionContextInterface qui permet d'ajouter des messages de violations de validation.
 
+* Ajout de la fonction d'upload d'image pour illustrer la fiche
+
+* Les nouveaux poissons ajoutés par les utilisateurs sont non visibles (paramètre booléen $isVisible false par défaut dans l'entité) : la fiche doit être validée par un administrateur avant d'être rendue visible.
+
+* Testé avec succès avec le "Discus de Heckle'.
+
+
 #### Dashboard de gestion
 * Généré avec le bundle EasyAdmin
 * Autorisé uniquement pour les utilisateurs ayant le rôle ADMIN.
-* Menu accessible via le menu déroulant des comptes admin
+* Menu accessible via le menu déroulant des comptes admin.
 * Interface légèrement améliorée via l'ajout d'une fonction "public function configureCrud(): Crud"
-* Les administrateurs peuvent modifier les fiches de poisson : ajout/modification/suppression
-* Ils peuvent aussi modifier les noms de familles de poissons et les continents d'origine
+* Les administrateurs peuvent modifier les fiches de poisson : ajout/modification/suppression.
+* Ils peuvent aussi modifier les noms de familles de poissons et les continents d'origine.
 
 ### Fonctionnalités restant à développer
-1. 
+1. Améliorer la sélection d'affichage des fiches qui ont un paramètre $isVisible = true : le tri mis en place est répétitif et fastidieux à implémenter dans tous mes requêtes.
+2. Finaliser la fonction de reset de mot de passe.
+3. Envoyer un email automatique aux administrateurs quand une nouvelle fiche est créée.
+4. Résoudre le problème du menu dropdown des utilisateurs (nécessite de recharger la page pour fonctionner)
+5. Toggle Dark Mode

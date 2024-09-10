@@ -49,7 +49,7 @@ class Fish
     private ?string $picFilename = null;
 
     #[ORM\Column]
-    private ?bool $isVisible = null;
+    private ?bool $isVisible = false;
 
     #[ORM\ManyToOne(inversedBy: 'fishes')]
     #[ORM\JoinColumn(nullable: false)]

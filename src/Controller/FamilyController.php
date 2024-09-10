@@ -29,7 +29,9 @@ class FamilyController extends AbstractController
 
         // Récupère les poissons liés à la famille sélectionnée
         $fishes = $fishRepository->findByFamily($slug);
-
+        $visibleFishes = array_filter($fishes, function($fish) {
+            return $fish->isVisible();
+        });
         
         //RECHERCHE PAR FILTRES AU NIVEAU DES PARAMETRES
         $filterForm = $this->createForm(FilterParametersType::class);
@@ -72,11 +74,14 @@ class FamilyController extends AbstractController
 
             // Récupère les poissons selon les critères
             $fishes = $fishRepository->findByFilters($criteria);
+            $visibleFishes = array_filter($fishes, function($fish) {
+                return $fish->isVisible();
+            });
         }
 
         return $this->render('family/list.family.html.twig', [
             'filterForm' => $filterForm->createView(),
-            'fishes' => $fishes,
+            'fishes' => $visibleFishes,
             'familiesCount' => $familiesCount,
             'originsCount' => $originsCount,
             'family' => $family,

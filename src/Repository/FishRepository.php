@@ -16,7 +16,10 @@ class FishRepository extends ServiceEntityRepository
         parent::__construct($registry, Fish::class);
     }
 
-
+    public function findAllByDescendingId()
+    {
+        return $this->findBy([], ['id' => 'DESC']);
+    }
     
    public function findBySearchQuery(string $query)
    {
