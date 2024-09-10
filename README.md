@@ -16,6 +16,7 @@ A web application made for aquarium lovers where they can find information about
         - Profiler
         - Maker
         - Security
+        - Reset Password
         - Doctrine
         - Faker
         - EasyAdmin
@@ -104,13 +105,19 @@ To run this project, you will need to add the following environment variables to
 Remarque : la fonction de slug automatique  "public function setSlugValue(SluggerInterface $slugger)" doit être désactiver lors du développement car incompatible avec la génération des Fixtures avec Fakear.
 
 
-### Ajout d'un formulaire de Registration & Login 
-#### Login
+#### Ajout d'un formulaire de Registration & Login 
+### Login
 * Injection du service de hachage de mot de passe dans la classe AppFixtures en type-hintant l'interface du PasswordHasher directement dans le constructeur.
 * Création d'un formulaire de login via la commande `make:security:form-login`
 
-#### Registration
+### Registration
 * Ajout de la propriété $isVerified à l'entité User, utilisée pour indiquer que l'utilisateur a bien confirmé son adresse email via un email de confirmation (pass alors en "true"). Propriété non testée dans l'application actuelle
+
+### Reset Password
+* Ajout de la fonctionnalité via SymfonyCastsResetPasswordBundle
+`composer require symfonycasts/reset-password-bundle`
+* Commande `php bin/console make:reset-password`
+
 
 #### Sécurité & Autorisations
 ### Formulaire d'ajout d'une fiche poisson
