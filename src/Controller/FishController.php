@@ -28,7 +28,6 @@ class FishController extends AbstractController
         $familiesCount = $fishRepository->countByFamily();
         $originsCount = $fishRepository->countByOrigin();
 
-
         //BARRE DE RECHERCHE
         $searchForm = $this->createForm(SearchType::class);
         $searchForm->handleRequest($request);
@@ -54,11 +53,6 @@ class FishController extends AbstractController
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $data = $filterForm->getData();
-
-            // Gestion du continent
-            if ($data['continent']) {
-                $criteria['continent'] = $data['continent'];
-            }
 
             // Gestion de la température
             if ($data['temperature']) {

@@ -26,19 +26,53 @@ class FishRepository extends ServiceEntityRepository
         // ->orderBy('f.id', 'ASC')
         // ->setMaxResults(10)
         ->getQuery()
-        ->getResult()
-        ;
+        ->getResult();
+   }
+
+/**
+ * @return Fish[]
+ */
+   public function findByFamily(string $query): array
+   {
+        return $this->createQueryBuilder('f')
+        ->join('f.family', 'ff')
+        ->where('ff.slug = :familySlug')
+        ->setParameter('familySlug', $query)
+        ->getQuery()
+        ->getResult();
 
    }
 
+/**
+ * @return Fish[]
+ */
+   public function findByOrigin(string $query): array
+   {
+        return $this->createQueryBuilder('f')
+        ->join('f.origin', 'o')
+        ->where('o.slug = :continentSlug')
+        ->setParameter('continentSlug', $query)
+        ->getQuery()
+        ->getResult();
+   }
+
+/**
+ * @return Fish[]
+ */
    public function findByFilters(array $criteria): array
    {
        $qb = $this->createQueryBuilder('f');
 
-        // Filtrer par continent
-        if (isset($criteria['continent'])) {
+        // Pour sortir les poissons qui correspondent à la famille actuelle
+        if (isset($criteria['family'])) {
+            $qb->andWhere('f.family = :family')
+            ->setParameter('family', $criteria['family']);
+        }
+
+        // Pour sortir les poissons qui correspondent à l'origine actuelle
+        if (isset($criteria['origin'])) {
             $qb->andWhere('f.origin = :origin')
-            ->setParameter('origin', $criteria['continent']);
+            ->setParameter('origin', $criteria['origin']);
         }
 
         // Filtrer par température

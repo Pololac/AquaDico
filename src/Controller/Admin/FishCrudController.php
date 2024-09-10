@@ -22,22 +22,22 @@ class FishCrudController extends AbstractCrudController
     
     public function configureFields(string $pageName): iterable
     {
-        return [
-            // IdField::new('id'),
-            TextField::new('name','Nom'),
-            TextField::new('latinName','Nom latin'),
-            TextEditorField::new('description', 'Description'),
-            IntegerField::new('adultSize', 'Taille adulte'),
-            IntegerField::new('minTemp', '°C min'),
-            IntegerField::new('maxTemp', '°C max'),
-            NumberField::new('minPh', 'pH min')->setNumDecimals(1),
-            NumberField::new('maxPh', 'pH max')->setNumDecimals(1),
-            IntegerField::new('minGh', 'Gh min'),
-            IntegerField::new('maxGh', 'Gh max'),
+        yield IdField::new('id');
+        yield TextField::new('name','Nom');
+        yield TextField::new('latinName','Nom latin');
+        yield TextEditorField::new('description', 'Description');
+        yield IntegerField::new('adultSize', 'Taille adulte');
+        yield IntegerField::new('minTemp', '°C min');
+        yield IntegerField::new('maxTemp', '°C max');
+        yield NumberField::new('minPh', 'pH min')->setNumDecimals(1);
+        yield NumberField::new('maxPh', 'pH max')->setNumDecimals(1);
+        yield IntegerField::new('minGh', 'Gh min');
+        yield IntegerField::new('maxGh', 'Gh max');
 
-            AssociationField::new('family', 'Famille')->autocomplete(),
-            AssociationField::new('origin', 'Origine')->autocomplete(),
-        ];
+        yield AssociationField::new('family', 'Famille')->autocomplete();
+        yield AssociationField::new('origin', 'Origine')->autocomplete();
+
+        yield BooleanField::new('isVisible', 'Visible');
     }
     
 }

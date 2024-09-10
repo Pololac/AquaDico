@@ -16,6 +16,17 @@ class OriginRepository extends ServiceEntityRepository
         parent::__construct($registry, Origin::class);
     }
 
+
+    public function findOneBySlug($value): ?Origin
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.slug = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
 //    /**
 //     * @return Origin[] Returns an array of Origin objects
 //     */

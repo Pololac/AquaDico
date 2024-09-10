@@ -2,11 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Origin;
 use App\Form\FilterParametersType;
 use App\Repository\FishFamilyRepository;
 use App\Repository\FishRepository;
-use App\Repository\OriginRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,10 +13,10 @@ use Symfony\Component\Routing\Attribute\Route;
 class FamilyController extends AbstractController
 {
     #[Route('/poissons/famille/{slug}', name: 'family_item')]
-    public function list(Request $request,
+    public function list(
+        Request $request,
         FishRepository $fishRepository,
         FishFamilyRepository $fishFamilyRepository,
-        OriginRepository $originRepository,
         string $slug // Ajout du slug de la famille comme paramètre
         ): Response
     {
@@ -29,15 +27,10 @@ class FamilyController extends AbstractController
         // Recherche de la famille par le slug
         $family = $fishFamilyRepository->findOneBySlug($slug);
 
-
         // Récupère les poissons liés à la famille sélectionnée
-        $fishes = $fishRepository->createQueryBuilder('f')
-            ->join('f.family', 'fa')
-            ->where('fa.slug = :familySlug')
-            ->setParameter('familySlug', $slug)
-            ->getQuery()
-            ->getResult();
-      
+        $fishes = $fishRepository->findByFamily($slug);
+
+        
         //RECHERCHE PAR FILTRES AU NIVEAU DES PARAMETRES
         $filterForm = $this->createForm(FilterParametersType::class);
         $filterForm->handleRequest($request);
@@ -47,11 +40,8 @@ class FamilyController extends AbstractController
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $data = $filterForm->getData();
 
-            // Gestion du continent
-            if ($data['continent']) {
-                $criteria['continent'] = $data['continent'];
-            }
-            
+            $criteria['family'] = $family;
+
             // Gestion de la température
             if ($data['temperature']) {
                 $tempRange = explode('-', $data['temperature']);
@@ -83,7 +73,6 @@ class FamilyController extends AbstractController
             // Récupère les poissons selon les critères
             $fishes = $fishRepository->findByFilters($criteria);
         }
-
 
         return $this->render('family/list.family.html.twig', [
             'filterForm' => $filterForm->createView(),

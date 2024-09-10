@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Origin;
 use App\Form\FilterParametersType;
-use App\Repository\FishFamilyRepository;
 use App\Repository\FishRepository;
 use App\Repository\OriginRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,7 +16,6 @@ class OriginController extends AbstractController
     public function list(
         Request $request,
         FishRepository $fishRepository,
-        FishFamilyRepository $fishFamilyRepository,
         OriginRepository $originRepository,
         string $slug // Ajout du slug de la famille comme paramètre
         ): Response
@@ -31,14 +28,7 @@ class OriginController extends AbstractController
         $origin = $originRepository->findOneBySlug($slug);
 
         // Récupère les poissons liés au continent sélectionné
-        $fishes = $fishRepository->createQueryBuilder('f')
-            ->join('f.origin', 'o')
-            ->where('o.slug = :continentSlug')
-            ->setParameter('continentSlug', $slug)
-            ->getQuery()
-            ->getResult();
-            
-
+        $fishes = $fishRepository->findByOrigin($slug);
 
         //RECHERCHE PAR FILTRES AU NIVEAU DES PARAMETRES
         $filterForm = $this->createForm(FilterParametersType::class);
@@ -48,6 +38,8 @@ class OriginController extends AbstractController
 
         if ($filterForm->isSubmitted() && $filterForm->isValid()) {
             $data = $filterForm->getData();
+
+            $criteria['origin'] = $origin;
 
             // Gestion de la température
             if ($data['temperature']) {
@@ -76,9 +68,6 @@ class OriginController extends AbstractController
                 $criteria['minAdultSize'] = $sizeRange[0];
                 $criteria['maxAdultSize'] = $sizeRange[1] ?? null;
             }
-
-            // Ajoutez un filtre pour le continent sélectionné
-            $criteria['continent'] = $origin->getContinent();
 
             // Récupère les poissons selon les critères
             $fishes = $fishRepository->findByFilters($criteria);

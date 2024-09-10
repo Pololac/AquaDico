@@ -17,7 +17,7 @@
         <div class="mt-4 w-full bg-gray-100">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
 
-                {% for fish in family.fishes %}
+                {% for fish in fishes %}
                     {% include 'fish/card.html.twig' with {'fish': fish} %}
                 {% endfor %}
                         

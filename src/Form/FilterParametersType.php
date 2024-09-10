@@ -15,20 +15,6 @@ class FilterParametersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            //Filtre par continent
-            ->add('continent', EntityType::class, [
-                'class' => Origin::class,
-                'choice_label' => 'continent',
-                'required' => false,
-                'label' => 'Continent',
-                'expanded' => false, // Menu déroulant
-                'multiple' => false, // Simple choix
-                'query_builder' => function (OriginRepository $repo) {
-                    return $repo->createQueryBuilder('o')
-                        ->orderBy('o.continent', 'ASC');
-                },
-            ])
-
 
             // Température avec des plages prédéfinies entre 10°C et 30 °C
             ->add('temperature', ChoiceType::class, [
