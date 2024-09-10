@@ -24,11 +24,11 @@ class OriginController extends AbstractController
         ): Response
     {
       
-        $families = $fishFamilyRepository->findAll();
-        $origins = $originRepository->findAll();
+        $familiesCount = $fishRepository->countByFamily();
+        $originsCount = $fishRepository->countByOrigin();
         
         // Recherche du continent par ID
-        $continent = $originRepository->findOneBySlug($slug);
+        $origin = $originRepository->findOneBySlug($slug);
 
         // Récupère les poissons liés au continent sélectionné
         $fishes = $fishRepository->createQueryBuilder('f')
@@ -78,7 +78,7 @@ class OriginController extends AbstractController
             }
 
             // Ajoutez un filtre pour le continent sélectionné
-            $criteria['continent'] = $continent->getContinent();
+            $criteria['continent'] = $origin->getContinent();
 
             // Récupère les poissons selon les critères
             $fishes = $fishRepository->findByFilters($criteria);
@@ -88,9 +88,9 @@ class OriginController extends AbstractController
         return $this->render('origin/list.origin.html.twig', [
             'filterForm' => $filterForm->createView(),
             'fishes' => $fishes,
-            'origins' => $origins,
-            'families' => $families,
-            'selectedContinent' => $continent,
+            'familiesCount' => $familiesCount,
+            'originsCount' => $originsCount,
+            'origin' => $origin,
         ]);
     }
 }

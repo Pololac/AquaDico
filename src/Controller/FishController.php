@@ -25,8 +25,9 @@ class FishController extends AbstractController
     public function list(Request $request, FishRepository $fishRepository, FishFamilyRepository $fishFamilyRepository, OriginRepository $originRepository): Response
     {
         $fishes = $fishRepository->findAll();
-        $families = $fishFamilyRepository->findAll();
-        $origins = $originRepository->findAll();
+        $familiesCount = $fishRepository->countByFamily();
+        $originsCount = $fishRepository->countByOrigin();
+
 
         //BARRE DE RECHERCHE
         $searchForm = $this->createForm(SearchType::class);
@@ -95,8 +96,8 @@ class FishController extends AbstractController
             'searchForm' => $searchForm->createView(),
             'filterForm' => $filterForm->createView(),
             'fishes' => $fishes,
-            'origins' => $origins,
-            'families' => $families
+            'familiesCount' => $familiesCount,
+            'originsCount' => $originsCount,
             ]);
 
     }

@@ -39,10 +39,6 @@ class RegistrationController extends AbstractController
             $em->persist($user);
             $em->flush();
 
-            // Ajoute un message flash de type 'success'
-            $this->addFlash('success', 'Vous êtes enregistré !');
-            $this->addFlash('warning', 'Warning !');
-
             return $this->redirectToRoute('app_login', ['successMessage' => 'Inscription réussie ! Vous pouvez vous connecter.']);
         }
 

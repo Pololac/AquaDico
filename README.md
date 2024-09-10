@@ -111,12 +111,12 @@ Remarque : la fonction de slug automatique  "public function setSlugValue(Slugge
 * Création d'un formulaire de login via la commande `make:security:form-login`
 
 ### Registration
-* Ajout de la propriété $isVerified à l'entité User, utilisée pour indiquer que l'utilisateur a bien confirmé son adresse email via un email de confirmation (pass alors en "true"). Propriété non testée dans l'application actuelle
+* Ajout de la propriété $isVerified à l'entité User, utilisée pour indiquer que l'utilisateur a bien confirmé son adresse email via un email de confirmation (pass alors en "true"). Propriété non testée dans l'application actuelle.
+* Les messages Flash n'étant pas pris en charge par Tailwind, je passe le message de succès d'enregistrement via un paramètre de la fonction redirectToRoute.
 
 ### Reset Password
-* Ajout de la fonctionnalité via SymfonyCastsResetPasswordBundle
-`composer require symfonycasts/reset-password-bundle`
-* Commande `php bin/console make:reset-password`
+* Ajout de la fonctionnalité via SymfonyCastsResetPasswordBundle : `composer require symfonycasts/reset-password-bundle`
+* Installation de la fonctionnalité via la commande : `php bin/console make:reset-password`
 
 
 #### Sécurité & Autorisations

@@ -23,8 +23,8 @@ class FamilyController extends AbstractController
         ): Response
     {
       
-        $families = $fishFamilyRepository->findAll();
-        $origins = $originRepository->findAll();
+        $familiesCount = $fishRepository->countByFamily();
+        $originsCount = $fishRepository->countByOrigin();
         
         // Recherche de la famille par le slug
         $family = $fishFamilyRepository->findOneBySlug($slug);
@@ -37,8 +37,7 @@ class FamilyController extends AbstractController
             ->setParameter('familySlug', $slug)
             ->getQuery()
             ->getResult();
- 
-
+      
         //RECHERCHE PAR FILTRES AU NIVEAU DES PARAMETRES
         $filterForm = $this->createForm(FilterParametersType::class);
         $filterForm->handleRequest($request);
@@ -83,14 +82,14 @@ class FamilyController extends AbstractController
 
             // Récupère les poissons selon les critères
             $fishes = $fishRepository->findByFilters($criteria);
-
         }
+
 
         return $this->render('family/list.family.html.twig', [
             'filterForm' => $filterForm->createView(),
             'fishes' => $fishes,
-            'origins' => $origins,
-            'families' => $families,
+            'familiesCount' => $familiesCount,
+            'originsCount' => $originsCount,
             'family' => $family,
         ]);
     }

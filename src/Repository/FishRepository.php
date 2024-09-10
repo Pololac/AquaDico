@@ -88,7 +88,29 @@ class FishRepository extends ServiceEntityRepository
        return $qb->getQuery()->getResult();
    }
 
+    // Compter les poissons par famille
+    public function countByFamily(): array
+    {
+        return $this->createQueryBuilder('f')
+            ->select('ff.name as familyName, ff.slug as familySlug, COUNT(f.id) as fishCount')
+            ->join('f.family', 'ff')
+            ->groupBy('ff.id')
+            ->getQuery()
+            ->getResult();
+    }
 
+    // Compter les poissons par origine
+    public function countByOrigin(): array
+    {
+        return $this->createQueryBuilder('f')
+            ->select('o.continent as originName, o.slug as originSlug, COUNT(f.id) as fishCount')
+            ->join('f.origin', 'o')
+            ->groupBy('o.id')
+            ->getQuery()
+            ->getResult();
+    }
+
+    
 //    public function findOneBySomeField($value): ?Fish
 //    {
 //        return $this->createQueryBuilder('f')
