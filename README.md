@@ -155,7 +155,7 @@ The site only displays entries with the parameter `$isVisible = true` (generally
 * Generated with the EasyAdmin bundle.
 * Allowed only for users with the `ADMIN` role.
 * Accessible via the admin account dropdown menu.
-* Interface slightly improved by adding a `public function configureCrud(): Crud`.
+* Interface slightly improved by adding a public function `configureCrud(): Crud`.
 * Administrators can modify fish entries: add/modify/delete.
 * They can also edit fish family names and origin continents.
 
