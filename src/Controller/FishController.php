@@ -6,9 +6,7 @@ use App\Entity\Fish;
 use App\Form\AddFishType;
 use App\Form\FilterParametersType;
 use App\Form\SearchType;
-use App\Repository\FishFamilyRepository;
 use App\Repository\FishRepository;
-use App\Repository\OriginRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -16,13 +14,14 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FishController extends AbstractController
 {
     // AFFICHAGE DE TOUTES LES FICHES OU DE CELLES QUI CORRESPONDENT A LA RECHERCHE
     #[Route('/poissons', name: 'fishes_list', methods: ['GET'])]
-    public function list(Request $request, FishRepository $fishRepository): Response
+    public function list(Request $request, FishRepository $fishRepository, UrlGeneratorInterface $urlGenerator): Response
     {
         $fishes = $fishRepository->findAllByDescendingId();
         $visibleFishes = array_filter($fishes, function($fish) {
@@ -96,12 +95,16 @@ class FishController extends AbstractController
 
         }
 
+        // Générer l'URL actuelle sans les paramètres GET pour la réinitialisation
+        $currentUrl = $urlGenerator->generate($request->attributes->get('_route'), [], UrlGeneratorInterface::ABSOLUTE_URL);
+
         return $this->render('fish/list.html.twig', [
             'searchForm' => $searchForm->createView(),
             'filterForm' => $filterForm->createView(),
             'fishes' => $visibleFishes,
             'familiesCount' => $familiesCount,
             'originsCount' => $originsCount,
+            'currentUrl' => $currentUrl,  // URL sans paramètres GET pour la réinitialisation
             ]);
 
     }

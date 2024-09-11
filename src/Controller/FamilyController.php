@@ -9,12 +9,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FamilyController extends AbstractController
 {
     #[Route('/poissons/famille/{slug}', name: 'family_item')]
     public function list(
         Request $request,
+        UrlGeneratorInterface $urlGenerator,
         FishRepository $fishRepository,
         FishFamilyRepository $fishFamilyRepository,
         string $slug // Ajout du slug de la famille comme paramètre
@@ -79,12 +81,17 @@ class FamilyController extends AbstractController
             });
         }
 
+        // Générer l'URL actuelle sans les paramètres GET pour la réinitialisation
+        $currentUrl = $urlGenerator->generate($request->attributes->get('_route'), 
+        ['slug' => $slug], UrlGeneratorInterface::ABSOLUTE_URL);
+
         return $this->render('family/list.family.html.twig', [
             'filterForm' => $filterForm->createView(),
             'fishes' => $visibleFishes,
             'familiesCount' => $familiesCount,
             'originsCount' => $originsCount,
             'family' => $family,
+            'currentUrl' => $currentUrl,  // URL sans paramètres GET pour la réinitialisation
         ]);
     }
 }

@@ -29,7 +29,7 @@
     <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="flex flex-col items-center text-center">
             <img src="{{ asset('images/poissons.webp') }}" alt="Discus"
-                class="object-cover w-80 h-50 rounded-lg mb-4">
+                class="object-cover w-80 h-50 rounded-lg mb-4 transition duration-500 hover:scale-105">
             <h3 class="text-xl font-bold mb-4 text-blue-800 dark:text-blue-400">Large Sélection</h3>
             <p class="text-black dark:text-blue-400">
                 Explorez une large sélection de fiches de poissons pour trouver les espèces qui conviennent à votre aquarium.
@@ -37,7 +37,7 @@
         </div>
         <div class="flex flex-col items-center text-center">
             <img src="{{ asset('images/compatibilite.jpeg') }}" alt="Poissons compatibles"
-                class="w-80 h-50 rounded-lg mb-4">
+                class="w-80 h-50 rounded-lg mb-4 transition duration-500 hover:scale-105">
             <h3 class="text-xl font-bold mb-4 text-blue-800 dark:text-blue-400">Compatibilité</h3>
             <p class="text-black dark:text-blue-400">
                 Assurez-vous de la compatibilité des espèces pour créer un écosystème harmonieux et florissant.
@@ -45,7 +45,7 @@
         </div>
         <div class="flex flex-col items-center text-center">
             <img src="{{ asset('images/expert.webp') }}" alt="Experts Aquascaping"
-                class="w-80 h-50 rounded-lg mb-4">
+                class="w-80 h-50 rounded-lg mb-4 transition duration-500 hover:scale-105">
             <h3 class="text-xl font-bold mb-4 text-blue-800 dark:text-blue-400">Conseils Experts</h3>
             <p class="text-black dark:text-blue-400">
                 Profitez de conseils d'experts pour maintenir un environnement sain et équilibré pour vos poissons.
@@ -54,7 +54,7 @@
     </div>
 
     <div class="mt-16 text-right">
-        <a href="{{ path('homepage') }}" class="bg-blue-800 text-white px-6 py-3 rounded-md shadow-md hover:bg-blue-700 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700">
+        <a href="{{ path('homepage') }}" class="bg-blue-800 text-white px-6 py-3 rounded-md shadow-md  hover:bg-blue-700 dark:bg-gray-800 dark:text-blue-400 dark:hover:bg-gray-700">
             Retour à l'accueil
         </a>
     </div>
