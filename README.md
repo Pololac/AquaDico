@@ -99,73 +99,70 @@ To run this project, you will need to add the following environment variables to
 
 ### Slug for FishFamily & Origin
 1. Added a "slug" property to my entity.
-2. Type-hinted the SluggerInterface in the constructor of my AppFixture entity (Fakear) to generate the slug from the family name.
-3. Used the {slug} in routes: added the name of the concerned entity after /fishes/ to avoid issues caused by similarities with the /fishes/{id} route.
+2. Type-hint the SluggerInterface in the constructor of my AppFixture entity (Fakear) to generate the slug from the family name.
+3. Used the {slug} in routes: added the name of the concerned entity after fishes/ to avoid issues caused by similarities with the fishes/{id} route.
 
-Note: The automatic slug function "public function setSlugValue(SluggerInterface $slugger)" should be disabled during development because it is incompatible with Fixture generation using Fakear.
+Note: The automatic slug function "setSlugValue(SluggerInterface $slugger)" should be disabled during development because it is incompatible with Fixture generation using Fakear.
 
 
-### Fonctions de recherche
-Le site n'affiche que les fiches qui ont pour paramètre $isVisible = true (à priori, toutes les fiches validées par les administrateurs).
+### Search Functions
+The site only displays entries with the parameter `$isVisible = true` (generally, all entries validated by the administrators).
 
-#### Par nom
-* Fonction disponible uniquement sur la page principale.
+#### By Name
+* Function available only on the main page.
 
-#### Par Familles ou Origines
-* Possibilité d'aller consulter directement toutes les fiches des poissons d'une famille donnée ou provenant d'un continent donnée.
-* Ajout d'une fonctionnalité qui affiche dans le menu de tri le nombre de fiches dans chaque catégorie.
+#### By Families or Origins
+* Option to directly view all entries of fish belonging to a given family or originating from a given continent.
+* Addition of a feature that displays the number of entries in each category in the sorting menu.
 
-#### Par critères de maintenance
-* Possibilité de sélectionner les poissons correspondant à des plages de température, de pH ou de durée ainsi qu'en fonction de leur taille adulte.
-* Possibilité de choisir une plage par paramètre : les poissons retenus ont des paramètres min et max compris dans cette plage.
-* Ajout d'un bouton pour réinitialiser facilement les paramètres.
+#### By Maintenance Criteria
+* Ability to select fish based on temperature, pH or hardness ranges, as well as their adult size.
+* Option to select a range for each parameter: the selected fish have minimum and maximum parameters within this range.
+* Addition of a button to easily reset parameters.
 
-### Ajout d'un formulaire de Registration & Login 
+### Addition of Registration & Login Form 
 #### Login
-* Injection du service de hachage de mot de passe dans la classe AppFixtures en type-hintant l'interface du PasswordHasher directement dans le constructeur.
-* Création d'un formulaire de login via la commande `make:security:form-login`
+* Injection of the password hashing service into the `AppFixtures` class by type-hinting the `PasswordHasher` interface directly in the constructor.
+* Creation of a login form using the command `make:security:form-login`.
 
 #### Registration
-* Ajout de la propriété $isVerified à l'entité User, utilisée pour indiquer que l'utilisateur a bien confirmé son adresse email via un email de confirmation (pass alors en "true"). Propriété non testée dans l'application actuelle.
-* Les messages Flash n'étant pas pris en charge par Tailwind, je passe le message de succès d'enregistrement via un paramètre de la fonction redirectToRoute.
+* Addition of the `$isVerified` property to the `User` entity, used to indicate that the user has confirmed their email address via a confirmation email (then set to "true"). Property not tested in the current application.
+* Since Flash messages are not supported by Tailwind, the registration success message is passed via a parameter of the `redirectToRoute` function.
 
 #### Reset Password
-* Ajout de la fonctionnalité via SymfonyCastsResetPasswordBundle : `composer require symfonycasts/reset-password-bundle`
-* Installation de la fonctionnalité via la commande : `php bin/console make:reset-password`
+* Addition of the feature via SymfonyCastsResetPasswordBundle: `composer require symfonycasts/reset-password-bundle`.
+* Installation of the feature using the command: `php bin/console make:reset-password`.
 
+### Addition of a Newsletter Subscription Form 
+* Creation of a dedicated entity and controller.
+* Validation that the entered email is indeed an email and is unique via constraints set as attributes of the entity class.
+* Creation of an application service for automatically sending an email upon saving the email in the database (via a dedicated `NewsletterConfirmation` class, where the `MailerInterface` is injected): verification of email sending through a local MailTrap SMTP server containerized in Docker.
 
-### Ajout d'un formulaire d'inscription à la newsletter 
-* Création d'une entité et d'un controleur dédié
-* Validation que l'email rentré est bien un email et est unique via des contraintes passées en attributs de la classe de l'entité
-* Création d'un service applicatif d'envoi automatique d'email à l'enregistrement de l'email dans la base de données (via une classe NewsletterConfirmation dédiée, dans laquelle on injecte le MailerInterface) : vérification de l'envoi du mail via un serveur SMTP local MailTrap conteneurisé dans Docker.
+### Security & Authorizations
+#### Fish Entry Submission Form
+* Allowed only for logged-in users.
+* I chose to add validation constraints directly in the form rather than at the entity level to notify the user of input issues as early as possible:
+    1. `NotBlank` constraint to require the user to fill in all fields.
+    2. `Range` constraints on pH and Gh since these values must necessarily be between 1 and 14 / 1 and 34, respectively.
+    3. Addition of Callback constraints on `maxTemp`, `maxPh`, and `maxGh` to define custom validation rules that ensure the entered max values are greater than the min values. These constraints call methods defined later, which type-hint the `ExecutionContextInterface` that allows adding validation violation messages.
+* Addition of an image upload function to illustrate the entry.
 
+* New fish added by users are not visible (boolean parameter `$isVisible` false by default in the entity): the entry must be validated by an administrator before being made visible.
 
-### Sécurité & Autorisations
-#### Formulaire d'ajout d'une fiche poisson
-* Autorisé uniquement pour les utilisateurs connectés
-* J'ai fait le choix d'ajouter des contraintes de validation directement dans le formulaire et non au niveau de l'entité pour signaler des problèmes de saisie à l'utilisateur le plus tôt possible :
-    1. Contrainte "NotBlank" pour obliger l'utilisateur a renseigner tous les champs.
-    2. Contraintes "Range" sur pH et Gh car ces valeurs sont forcément comprises respectivement entre 1 et 14 / 1 et 34.
-    3. Ajout de contraintes Callback sur maxTemp, maxPh et maxGh pour définir des règles de validation personnalisées qui garantissent que les valeurs max rentrées sont supérieures aux valeurs min. Ces contraintes font appel à des méthodes définies plus loin, qui type-hintent l'interface ExecutionContextInterface qui permet d'ajouter des messages de violations de validation.
-* Ajout de la fonction d'upload d'image pour illustrer la fiche
+* Successfully tested with the "Heckel Discus."
 
-* Les nouveaux poissons ajoutés par les utilisateurs sont non visibles (paramètre booléen $isVisible false par défaut dans l'entité) : la fiche doit être validée par un administrateur avant d'être rendue visible.
+#### Management Dashboard
+* Generated with the EasyAdmin bundle.
+* Allowed only for users with the `ADMIN` role.
+* Accessible via the admin account dropdown menu.
+* Interface slightly improved by adding a `public function configureCrud(): Crud`.
+* Administrators can modify fish entries: add/modify/delete.
+* They can also edit fish family names and origin continents.
 
-* Testé avec succès avec le "Discus de Heckle'.
-
-
-#### Dashboard de gestion
-* Généré avec le bundle EasyAdmin
-* Autorisé uniquement pour les utilisateurs ayant le rôle ADMIN.
-* Menu accessible via le menu déroulant des comptes admin.
-* Interface légèrement améliorée via l'ajout d'une fonction "public function configureCrud(): Crud"
-* Les administrateurs peuvent modifier les fiches de poisson : ajout/modification/suppression.
-* Ils peuvent aussi modifier les noms de familles de poissons et les continents d'origine.
-
-### Fonctionnalités restant à développer
-1. Améliorer la sélection d'affichage des fiches qui ont un paramètre $isVisible = true : le tri mis en place est répétitif et fastidieux à implémenter dans tous mes requêtes. Il faudrait peut-être passer par un "EventListener" qui s'active quand les données à afficher se chargent dans la page.
-2. Finaliser la fonction de reset de mot de passe.
-3. Envoyer un email automatique aux administrateurs quand une nouvelle fiche est créée.
-4. Trouver une solution pérenne au problème d'affichage des messages Flash avec Tailwind.
-5. Résoudre le problème du menu dropdown des utilisateurs : lié apparemment à une mauvaise gestion du JS dans le projet actuel.
-6. Toggle Dark Mode : également impacté par le problème de gestion de JS dans le projet.
+### Features Remaining to be Developed
+1. Improve the selection of entries with the `$isVisible = true` parameter: the sorting currently in place is repetitive and tedious to implement in all my queries. It may be necessary to use an "EventListener" that activates when the data to be displayed loads on the page.
+2. Finalize the password reset function.
+3. Send an automatic email to administrators when a new entry is created.
+4. Find a sustainable solution to the problem of displaying Flash messages with Tailwind.
+5. Resolve the issue with the user dropdown menu: apparently related to poor JS handling in the current project.
+6. Toggle Dark Mode: also impacted by the JS management issue in the project.
