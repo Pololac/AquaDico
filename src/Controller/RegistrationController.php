@@ -16,7 +16,7 @@ class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
     public function register(
-        Request $request, 
+        Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
         Security $security,
         EntityManagerInterface $em
@@ -26,14 +26,13 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Encodage du mot de passe et enregistrement de l'utilisateur dans la BDD
-            $errors = $form->getErrors(true);
+        if ($form->isSubmitted() && $form->isValid()) {            $errors = $form->getErrors(true);
             foreach ($errors as $error) {
                 // Ajoutez un log ou affichez l'erreur
                 echo $error->getMessage();
             }
 
+            // Encodage du mot de passe et enregistrement de l'utilisateur dans la BDD
             $user->setPassword($userPasswordHasher->hashPassword($user, $form->get('plainPassword')->getData()));
 
             $em->persist($user);

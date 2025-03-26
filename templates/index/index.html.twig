@@ -4,54 +4,47 @@
 {% block title %}Accueil - AquaDico{% endblock %}
 
 {% block body %}
-<div class="relative bg-cover bg-center h-screen bg-[url('../../assets/images/Accueil.jpg')]">
-    <div class="flex items-center justify-center h-full w-fullbg-opacity-30">
-        <div class="text-center text-white">
-            <h1 class="text-6xl font-bold">AquaDico</h1>
-            <p class="text-2xl font-semibold mt-4">Le repaire des fondus du bocal</p>
-        </div>
+<div class="relative w-full h-[600px] bg-accueil bg-cover bg-center">
+    <!-- Overlay avec le gradient -->
+    <div class="absolute inset-0 overlay-gradient z-10"></div>
+    
+    <div class="absolute inset-0 flex flex-col items-center justify-center text-center text-white z-20">
+        <h1 class="text-6xl font-bold">AquaDico</h1>
+        <p class="text-2xl font-semibold mt-4">Le repaire des fondus du bocal</p>
     </div>
 </div>
 
-<div class="container mx-auto px-4 py-12 dark:bg-gray-800 rounded-lg">
-    <h2 class="text-3xl font-bold dark:text-blue-400 mb-8">Familles de poissons</h2>
+<div class="container mx-auto px-4 py-12 rounded-lg">
+    <h2 class="text-3xl font-bold text-blue-800 dark:text-blue-400 mb-8">Familles de poissons</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         {% for family in familiesCount %}
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div class="max-w-sm bg-white border border-gray-100 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <a href="{{ path('family_item', { 'slug': family.familySlug }) }}">
                     <img class="rounded-t-lg h-48 w-full object-cover object-top transition duration-300 ease-in-out hover:brightness-125" 
-                         src="{{ asset('images/' ~ family.familySlug ~ '.jpg') }}" 
-                         alt="{{ family.familyName }}" 
-                         loading="lazy"/>
+                        src="{{ asset('build/images/' ~ family.familySlug ~ '.jpg') }}" 
+                        alt="{{ family.familyName }}" 
+                        loading="lazy"/>
+                    <h3 class="mx-5 my-2 text-2xl font-bold tracking-tight truncate overflow-hidden whitespace-nowrap text-gray-900 dark:text-white hover:text-blue-700">
+                        {{ family.familyName }}
+                    </h3>
                 </a>
-                <div class="mx-5 my-2">
-                    <a href="{{ path('family_item', { 'slug': family.familySlug }) }}">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight truncate overflow-hidden whitespace-nowrap text-gray-900 dark:text-white hover:text-blue-700">
-                            {{ family.familyName }}
-                        </h3>
-                    </a>
-                </div>
             </div>
         {% endfor %}
     </div>
 
-    <h2 class="text-3xl font-bold dark:text-blue-400 my-12">Continents d'origine</h2>
+    <h2 class="text-3xl font-bold text-blue-800 dark:text-blue-400 my-12">Continents d'origine</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
         {% for origin in originsCount %}
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <div class="max-w-sm bg-white border border-gray-100 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <a href="{{ path('origin_item', { 'slug': origin.originSlug }) }}">
                     <img class="rounded-t-lg h-48 w-full object-cover object-top transition duration-300 ease-in-out hover:brightness-125" 
-                         src="{{ asset('images/ameriquesud.jpg') }}" 
+                         src="{{ asset('build/images/ameriquesud.jpg') }}" 
                          alt="{{ origin.originName }}" 
                          loading="lazy"/>
+                    <h3 class="mx-5 my-2 text-2xl font-bold tracking-tight truncate overflow-hidden whitespace-nowrap text-gray-900 dark:text-white hover:text-blue-700">
+                        {{ origin.originName }}
+                    </h3>
                 </a>
-                <div class="mx-5 my-2">
-                    <a href="{{ path('origin_item', { 'slug': origin.originSlug }) }}">
-                        <h3 class="mb-1 text-2xl font-bold tracking-tight truncate overflow-hidden whitespace-nowrap text-gray-900 dark:text-white hover:text-blue-700">
-                            {{ origin.originName }}
-                        </h3>
-                    </a>
-                </div>
             </div>
         {% endfor %}
     </div>

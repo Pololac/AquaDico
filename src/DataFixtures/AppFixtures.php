@@ -20,7 +20,7 @@ class AppFixtures extends Fixture
     private const FISHFAMILY_NAMES = ['Cyprinidés', 'Cichlidés', 'Poeciliidés', 'Notobranchiidés', 'Characidés', 'Loricariidés', 'Callichtyidés', 'Osphronemidés', 'Gobiidés'];
 
     public function __construct(
-        private UserPasswordHasherInterface $hasher, 
+        private UserPasswordHasherInterface $hasher,
         private SluggerInterface $slugger
     ){}
     
@@ -41,7 +41,7 @@ class AppFixtures extends Fixture
 
             $manager->persist($origin);
 
-            $origins[] = $origin;   
+            $origins[] = $origin;
         }
 
 
@@ -58,7 +58,7 @@ class AppFixtures extends Fixture
 
             $manager->persist($fishfamily);
 
-            $fishfamilies[] = $fishfamily;   
+            $fishfamilies[] = $fishfamily;
         }
 
 

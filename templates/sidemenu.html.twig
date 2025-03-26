@@ -1,7 +1,7 @@
         <div>
             {# Sélection par Famille #}
             <div class="mt-4 mr-4">
-                <h3 class="text-lg font-bold mb-3">Famille</h3>
+                <h3 class="text-lg font-bold text-blue-800 dark:text-white mb-3">Famille</h3>
                 <div class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     {% for family in familiesCount %}
                     <a href="{{ path('family_item', { slug: family.familySlug }) }}" class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
@@ -13,7 +13,7 @@
 
             {# Sélection par Continent #}
             <div class="mt-4 mr-4">
-                <h3 class="text-lg font-bold mb-3">Continent</h3>
+                <h3 class="text-lg font-bold text-blue-800 dark:text-white mb-3">Continent</h3>
                 <div class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     {% for origin in originsCount %}
                         <a href="{{ path('origin_item', { slug: origin.originSlug }) }}" class="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
@@ -26,12 +26,12 @@
             {# Filtrer en fonction des paramètres #}
             <div class="mt-4 mr-4">
                 <div class="flex justify-between">
-                    <h3 class="text-lg font-bold mb-3">Filtres</h3>
+                    <h3 class="text-lg font-bold text-blue-800 dark:text-white mb-3">Filtres</h3>
                     
                     {# Bouton pour réinitialiser les filtres #}
                     <a href="{{ currentUrl }}" >
                             <p class="text-right">
-                                <button type="submit" class="px-1 py-1 ms-2 text-xs font-medium  bg-gray-100 hover:bg-gray-300 rounded-lg border  focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Réinitialiser</button>
+                                <button type="submit" class="px-3 py-1 ms-2 text-sm font-regular bg-gray-100 hover:bg-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-gray-300 dark:hover:bg-gray-500 dark:focus:ring-blue-800">Réinitialiser</button>
                             </p>
                     </a>
                 </div>

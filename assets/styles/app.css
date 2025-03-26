@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* Ajouter votre règle bg-accueil ici */
+.bg-accueil {
+    background-image: url('../images/accueil.jpg');
+}
+
+.overlay-gradient {
+    background-image: linear-gradient(to top, black 0%, rgba(0, 0, 0, 0.5) 50%, transparent 100%);
+}
+
 body {
     background-color: skyblue;
 }

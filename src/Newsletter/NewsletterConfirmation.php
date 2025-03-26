@@ -22,8 +22,8 @@ class NewsletterConfirmation
             ->from($this->adminEmail)
             ->to($newsletterEmail->getEmail())
             ->subject('Aqua Dico - Inscription à la newsletter')
-            ->text('Votre email a bien été enregistré à notre newsletter')
-            ->html('<p>Votre email a bien été enregistré à notre newsletter</p>');
+            ->text('Votre email a bien été ajouté à notre liste de diffusion de la newsletter !')
+            ->html('<p>Votre email a bien été ajouté à notre liste de diffusion de la newsletter !</p>');
 
         $this->mailer->send($email);
     }

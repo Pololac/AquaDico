@@ -1,25 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}AquaDico{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+        <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
         <!-- Flowbite CSS -->
         <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ asset('build/app.js') }}">
 
         {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
 
         {% endblock %}
 
         {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
             {{ importmap('app') }}
         {% endblock %}
         
     </head>
-    <body class="container mx-auto px-4 bg-white dark:bg-green-950 dark:text-white">
+    <body class="container mx-auto px-4 bg-white text-gray-700 border-gray-200 dark:bg-gray-900">
 
-        <header>
+        <header class="my-5">
             {{ include('nav.html.twig') }}
         </header>
 
@@ -39,29 +46,24 @@
 
         {% endblock %}
 
-        <footer class="container bg-white rounded-lg shadow dark:bg-gray-900">
-            <div class="w-full max-w-screen-xl mx-auto my-4">
-                <div class="sm:flex sm:justify-end sm:items-center">
-                    <ul class="sm:flex-row sm:flex-wrap sm:items-center sm:justify-end flex flex-col items-center text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-                        <li class="mb-4 sm:mb-0">
-                            <a href="#" class="hover:underline me-4 md:me-6">Politique de confidentialité</a>
-                        </li>
-                        <li class="mb-4 sm:mb-0">
-                            <a href="#" class="hover:underline me-4 md:me-6">Mentions légales</a>
-                        </li>
-                        <li class="mb-4 sm:mb-0">
-                            <a href="#" class="hover:underline">Contact</a>
-                        </li>
-                        <a href="{{path('homepage')}}" class="flex items-center space-x-3 rtl:space-x-reverse">
-                            <img src="{{ asset('images/AquaDico_Logo.png') }}" class="h-24" alt="AquaDico Logo" />
-                        </a>
-                    </ul>
+        <footer class="container dark:bg-gray-900">
+            <div class="w-full my-4">
+                <div class="flex flex-col items-center sm:flex-row sm:justify-end sm:items-center text-sm font-medium text-gray-500 dark:text-gray-400">
+                    <!-- Utilisez des non-breaking spaces (&nbsp;) pour garantir les espaces -->
+                    <a href="#" class="hover:underline mb-4 mr-4 sm:mb-0">Politique&nbsp;de&nbsp;confidentialité</a>
+                    <a href="#" class="hover:underline mb-4 mr-4 sm:mb-0">Mentions&nbsp;légales</a>
+                    <a href="#" class="hover:underline mb-4 mr-4 sm:mb-0">Contact</a>
+                    
+                    <a href="{{path('homepage')}}" class="flex items-center sm:ml-4">
+                        <img src="{{ asset('build/images/Logo.png') }}" class="h-24 rounded" alt="AquaDico Logo" />
+                    </a>
                 </div>
             </div>
-            <hr class=" border-gray-200 sm:mx-auto dark:border-gray-700" />
-            <span class="block m-4 text-sm text-gray-500 text-center dark:text-gray-400">© 2024 <a href="#" class="hover:underline">AquaDico</a>. All Rights Reserved.</span>
+            <hr class="border-gray-200 sm:mx-auto dark:border-gray-700" />
+            <div class="py-4">
+                <span class="block text-sm text-gray-500 text-center dark:text-gray-400">© 2024 <a href="#" class="hover:underline">AquaDico</a>. All Rights Reserved.</span>
             </div>
         </footer>
 
-        </body>
+    </body>
 </html>

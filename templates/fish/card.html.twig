@@ -1,16 +1,17 @@
 <div>
-  <div class="max-w-xs bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+  <div class="max-w-xs bg-white border border-gray-100 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition duration-500 hover:brightness-125
+transition duration-500">
     <a href="{{ path('fish_item', { id: fish.id }) }}">
       {% if fish.picFilename is not null %}
-          <img class="rounded-lg h-56 sm:h-full w-full object-cover object-top transition duration-500 hover:brightness-125"
+          <img class="rounded-lg h-56 sm:h-full w-full object-cover object-top "
           src="{{ '/uploads/fishes/' ~ fish.picFilename }}"
           alt="{{ fish.name }}"
           loading="lazy"/>
 
       {% else %}
-          <img class="rounded-lg h-56 sm:h-full w-full object-cover object-top transition duration-500 hover:brightness-125"
+          <img class="rounded-lg h-56 sm:h-full w-full object-cover object-top "
           src="{{ asset('images/poisson.jpg') }}"
-          alt="default fish picture"
+          alt="poisson par défaut"
           loading="lazy"/>
       {% endif %}
     </a>
