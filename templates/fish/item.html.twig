@@ -24,26 +24,26 @@
             </div>
             <div class="basis-3/5 content-center">
                 <div class="flex gap-4">
-                    <a href="{{ path('family_item', { slug: fish.family.slug }) }}" class="ml-8 mb-3 px-3 py-1 rounded-lg border border-gray-100 text-sm font-medium text-primary transition duration-300 drop-shadow-md hover:drop-shadow-xl hover:bg-primary dark:hover:text-white dark:border-gray-700 dark:text-gray-300">{{ fish.family.name }}</a>
-                    <a href="{{ path('origin_item', { slug: fish.origin.slug }) }}" class="ml-8 mb-3 px-3 py-1 rounded-lg border border-gray-100 text-sm font-medium text-primary transition duration-300 drop-shadow-md hover:drop-shadow-xl hover:bg-primary dark:hover:text-white dark:border-gray-700 dark:text-gray-300">{{ fish.origin.continent }}</a>
+                    <a href="{{ path('family_item', { slug: fish.family.slug }) }}" class="ml-8 mb-3 px-3 py-1 rounded-lg border border-gray-100 text-sm font-medium text-blue-300 transition duration-300 drop-shadow-md hover:drop-shadow-xl hover:bg-blue-300 dark:hover:text-white dark:border-gray-300 dark:text-gray-300">{{ fish.family.name }}</a>
+                    <a href="{{ path('origin_item', { slug: fish.origin.slug }) }}" class="ml-8 mb-3 px-3 py-1 rounded-lg border border-gray-100 text-sm font-medium text-blue-300 transition duration-300 drop-shadow-md hover:drop-shadow-xl hover:bg-blue-300 dark:hover:text-white dark:border-gray-700 dark:text-gray-300">{{ fish.origin.continent }}</a>
                 </div>
-                <h1 class="ml-8 text-5xl font-bold mb-2">{{fish.name}}</h1>
+                <h1 class="ml-8 text-5xl font-bold mb-2 dark:text-white">{{fish.name}}</h1>
                 <h3 class="ml-8 mb-1 text-3xl font-normal italic text-gray-400 dark:text-gray-500">{{ fish.latinName }}</h3>
             </div>
         </div>
 
         <div class="">
-            <h2 class="mt-5 text-3xl text-bold mb-2">Description</h2>   
-            <p class="text-justify">{{fish.description}}</p>
+            <h2 class="mt-5 text-3xl text-bold mb-2 dark:text-white">Description</h2>   
+            <p class="text-justify dark:text-white">{{fish.description}}</p>
         </div>
 
         <div class="">
-            <h2 class="mt-5 text-3xl text-bold mb-2">Taille adulte :</h2>
-            <p class="text-2xl">{{fish.adultSize}} cm</p>
+            <h2 class="mt-5 text-3xl text-bold mb-2 dark:text-white">Taille adulte :</h2>
+            <p class="text-2xl dark:text-white">{{fish.adultSize}} cm</p>
         </div>
 
         <div class="">
-            <h2 class="mt-5 mb-4 text-3xl text-bold">Paramètres de maintenance</h2>   
+            <h2 class="mt-5 mb-4 text-3xl text-bold dark:text-white">Paramètres de maintenance</h2>   
             <div class="container mx-auto">
                 <table class="min-w-full bg-white border border-gray-200">
                     <thead>
