@@ -2,28 +2,22 @@
 <html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}AquaDico{% endblock %}</title>
+    
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
         <link rel="manifest" href="{{ asset('site.webmanifest') }}">
-
-        <!-- Flowbite CSS -->
+    
+        {{ encore_entry_link_tags('app') }}
+    
+        <!-- Flowbite CSS (optionnel si tu l’utilises vraiment) -->
         <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
-        <link rel="stylesheet" href="{{ asset('build/app.js') }}">
-
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-
-        {% endblock %}
-
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-            {{ importmap('app') }}
-        {% endblock %}
-        
+    
+        {% block stylesheets %}{% endblock %}
     </head>
+
     <body class="container mx-auto px-4 bg-white text-gray-700 border-gray-200 dark:bg-gray-900">
 
         <header class="my-5">
@@ -41,10 +35,16 @@
             {% endfor %}
         {% endfor %}
 
-        {% block body %}
-
-
-        {% endblock %}
+{% block body %}
+<div class="container mx-auto my-8">
+    <h1 class="text-4xl font-bold text-center text-blue-700">Test Tailwind OK</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
+        <div class="bg-blue-100 p-4">Col 1</div>
+        <div class="bg-green-100 p-4">Col 2</div>
+        <div class="bg-yellow-100 p-4">Col 3</div>
+    </div>
+</div>
+{% endblock %}
 
         <footer class="container dark:bg-gray-900">
             <div class="w-full my-4">
@@ -65,5 +65,7 @@
             </div>
         </footer>
 
+    {# Inclut le JS généré par Webpack Encore #}
+    {{ encore_entry_script_tags('app') }}
     </body>
 </html>
