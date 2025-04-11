@@ -165,4 +165,3 @@ The site only displays entries with the parameter `$isVisible = true` (generally
 3. Send an automatic email to administrators when a new entry is created.
 4. Find a sustainable solution to the problem of displaying Flash messages with Tailwind.
 5. Resolve the issue with the user dropdown menu: apparently related to poor JS handling in the current project.
-6. Toggle Dark Mode: also impacted by the JS management issue in the project.
