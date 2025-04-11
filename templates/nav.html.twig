@@ -1,100 +1,126 @@
 {% set route = app.request.attributes.get('_route') %} 
 
 <nav class="bg-white border-gray-200 dark:bg-gray-900">
-  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto">
+  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto relative">
+
+    <!-- Logo -->
     <a href="{{path('homepage')}}" class="flex items-center space-x-3 rtl:space-x-reverse">
         <img src="{{ asset('build/images/Logo.png') }}" class="h-32 rounded" alt="AquaDico Logo" />
     </a>
 
+    <!-- Burger menu -->
     <button data-collapse-toggle="navbar-default" type="button" class="inline-flex items-center p-2 w-12 h-12 justify-center text-sm text-gray-700 border dark:text-white rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="navbar-default" aria-expanded="false">
         <span class="sr-only">Open main menu</span>
-        <svg class="w-10 h-10" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 17 14"">
+        <svg class="w-10 h-10" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 17 14">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
         </svg>
     </button>
 
-
-
+    <!-- Navigation links -->
     <div class="hidden w-full md:block md:w-auto" id="navbar-default">
-        <ul class="text-lg font-semibold flex flex-col items-center p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+      <ul class="text-lg font-semibold flex flex-col items-center p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
 
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-            <li class="flex items-center md:order-2 md:ml-6 space-x-3 md:space-x-6 rtl:space-x-reverse order-first md:order-2">
-                <button type="button" class="flex no-underline bg-blue-700 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" 
-                        id="user-menu-button" 
-                        aria-expanded="false" 
-                        data-dropdown-toggle="user-dropdown" 
-                        data-dropdown-placement="bottom">
-                    <span class="sr-only">Open user menu</span>
-                    <img class="rounded-full p-1" height="40" width="40" src="{{ asset('images/user-fill2.png') }}" alt="user pfp">
-                </button>
-                
-                <!-- Dropdown menu -->
-                <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
-                    <div class="px-4 py-3">
-                        <span class="block text-sm text-gray-500 truncate dark:text-gray-400">{{ app.user.email }}</span>
-                    </div>
-                    <ul class="py-2" aria-labelledby="user-menu-button">
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <li>
-                                <a href="{{ path('admin') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
-                            </li>
-                        {% else %}
-                            <li>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Favoris</a>
-                            </li>
-                        {% endif %}
-                        <li>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profil</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Se déconnecter</a>
-                        </li>
-                    </ul>
+        <!-- Menu items -->
+        <li>
+          <a href="{{path('homepage')}}" class="block py-2 px-3 rounded md:bg-transparent md:p-0 
+            {{ route == 'homepage' ? 'text-blue-700 dark:text-blue-500' : 'text-gray-900 dark:text-white md:hover:text-blue-700 md:dark:hover:text-blue-500' }}">
+            Accueil
+          </a>
+        </li>
+        <li>
+          <a href="{{path('fishes_list')}}" class="block py-2 px-3 rounded md:bg-transparent md:p-0 
+            {{ route starts with 'fish' ? 'text-blue-700 dark:text-blue-500' : 'text-gray-900 dark:text-white md:hover:text-blue-700 md:dark:hover:text-blue-500' }}">
+            Poissons
+          </a>
+        </li>
+        <li>
+          <a href="{{path('newsletter_subscribe')}}" class="block py-2 px-3 rounded md:bg-transparent md:p-0 
+            {{ route starts with 'newsletter' ? 'text-blue-700 dark:text-blue-500' : 'text-gray-900 dark:text-white md:hover:text-blue-700 md:dark:hover:text-blue-500' }}">
+            Newsletter
+          </a>
+        </li>
+        <li class="md:mr-4">
+          <a href="{{path('about')}}" class="block py-2 px-3 rounded md:bg-transparent md:p-0  
+            {{ route == 'about' ? 'text-blue-700 dark:text-blue-500' : 'text-gray-900 dark:text-white md:hover:text-blue-700 md:dark:hover:text-blue-500' }}">
+            A propos
+          </a>
+        </li>
+
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <li class="flex items-center md:order-2 md:ml-6 space-x-3 md:space-x-6 rtl:space-x-reverse order-first md:order-2">
+            <button type="button" class="flex no-underline bg-blue-700 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" 
+                    id="user-menu-button" 
+                    aria-expanded="false" 
+                    data-dropdown-toggle="user-dropdown" 
+                    data-dropdown-placement="bottom">
+                <span class="sr-only">Open user menu</span>
+                <img class="rounded-full p-1" height="40" width="40" src="{{ asset('images/user-fill2.png') }}" alt="user pfp">
+            </button>
+            <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
+                <div class="px-4 py-3">
+                    <span class="block text-sm text-gray-500 truncate dark:text-gray-400">{{ app.user.email }}</span>
                 </div>
-            </li>
+                <ul class="py-2" aria-labelledby="user-menu-button">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li>
+                            <a href="{{ path('admin') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Favoris</a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profil</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Se déconnecter</a>
+                    </li>
+                </ul>
+            </div>
+        </li>
 
-            {% else %}
-                <li class="text-center md:text-right md:order-2">
-                    <a href="{{ path('app_login') }}" 
-                    class="mr-4 px-4 py-2 text-white bg-blue-700 font-semibold no-underline rounded hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
-                        Connexion
-                    </a>
-                </li>
-            {% endif %}
+      {% else %}
+        <li class="text-center md:text-right md:order-2 md:ml-4">
+          <a href="{{ path('app_login') }}" class="px-4 py-2 text-white bg-blue-700 font-semibold no-underline rounded hover:bg-blue-800 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+              Connexion
+          </a>
+        </li>
+      {% endif %}
+      
+        <!-- Toggle dark mode -->
+        <li class="md:order-3 md:ml-4 flex items-center">
+            <label class="inline-flex items-center cursor-pointer">
+            <input id="theme-toggle" type="checkbox" class="sr-only peer">
+            <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
+            <span class="hidden sm:inline ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Sombre</span>
+            </label>
+        </li>
 
-            <!-- Remaining menu items -->
-            <li>
-            <a href="{{path('homepage')}}" 
-                class="block py-2 px-3 rounded md:bg-transparent md:p-0 
-                        {{ route == 'homepage' ? 'text-blue-700 dark:text-blue-500' : 'text-gray-900 dark:text-white md:hover:text-blue-700 md:dark:hover:text-blue-500' }}">
-                Accueil
-            </a>
-            </li>
-            <li>
-            <a href="{{path('fishes_list')}}" 
-                class="block py-2 px-3 rounded md:bg-transparent md:p-0 
-                        {{ route starts with 'fish' ? 'text-blue-700 dark:text-blue-500' : 'text-gray-900 dark:text-white md:hover:text-blue-700 md:dark:hover:text-blue-500' }}">
-                Poissons
-            </a>
-            </li>
-            <li>
-            <a href="{{path('newsletter_subscribe')}}" 
-                class="block py-2 px-3 rounded md:bg-transparent md:p-0 
-                        {{ route starts with 'newsletter' ? 'text-blue-700 dark:text-blue-500' : 'text-gray-900 dark:text-white md:hover:text-blue-700 md:dark:hover:text-blue-500' }}">
-                Newsletter
-            </a>
-            </li>
-            <li>
-            <a href="{{path('about')}}" 
-                class="block py-2 px-3 rounded md:bg-transparent md:p-0  
-                        {{ route == 'about' ? 'text-blue-700 dark:text-blue-500' : 'text-gray-900 dark:text-white md:hover:text-blue-700 md:dark:hover:text-blue-500' }}">
-                A propos
-            </a>
-            </li>
-
-        </ul>
+      </ul>
     </div>
-
   </div>
+
+  <!-- SCRIPT DARK MODE -->
+  <script>
+    const toggle = document.getElementById('theme-toggle');
+
+    const storedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (storedTheme === 'dark' || (!storedTheme && systemPrefersDark)) {
+        document.documentElement.classList.add('dark');
+        toggle.checked = true;
+    }
+
+    toggle.addEventListener('change', () => {
+        if (toggle.checked) {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+  </script>
 </nav>

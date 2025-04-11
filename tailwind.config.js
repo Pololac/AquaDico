@@ -7,7 +7,7 @@ module.exports = {
       "./vendor/tales-from-a-dev/flowbite-bundle/templates/**/*.html.twig",
       "./assets/**/*.js",
     ],
-    darkMode: false,
+    darkMode: 'class',
     theme: {
       extend: {
         backgroundImage: {

@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="dark">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}AquaDico{% endblock %}</title>
     
+        <script>
+        (function () {
+            const storedTheme = localStorage.getItem('theme');
+
+            if (storedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+            } else if (storedTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+            } else {
+                
+            // Pas de préférence stockée : on suit le système
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            }
+            }
+        })();
+        </script>
+
+
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
