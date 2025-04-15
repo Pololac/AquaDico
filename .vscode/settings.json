@@ -7,11 +7,11 @@
       },
       "previewLimit": 50,
       "server": "localhost",
-      "port": 3306,
+      "port": 8889,
       "driver": "MySQL",
       "database": "hb_r6_sf_aqua",
       "username": "root",
-      "name": "aqua",
+      "name": "MAMP SQL",
       "askForPassword": true
     }
   ]
