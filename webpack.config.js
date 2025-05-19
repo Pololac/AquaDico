@@ -40,7 +40,7 @@ Encore
     .enableSingleRuntimeChunk()
 
     // Active le support pour Stimulus controllers (Si utilisé)
-    .enableStimulusBridge('./assets/controllers.json')
+    // .enableStimulusBridge('./assets/controllers.json')
 
     /*
      * FEATURE CONFIG
