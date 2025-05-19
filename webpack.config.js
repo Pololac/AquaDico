@@ -25,7 +25,7 @@ Encore
     // Pour traiter les images (comme celles dans assets/images)
     .copyFiles({
         from: './assets/images', // Source des fichiers
-        to: 'images/[path][name].[ext]', // Destination dans build/
+        to: 'images/[path][name][hash].[ext]', // Destination dans build/
     })
 
     /* Gérer le CSS et les fichiers liés */
