@@ -1,7 +1,19 @@
 {% set route = app.request.attributes.get('_route') %} 
 
-<nav class="bg-white border-gray-200 dark:bg-gray-900">
-  <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto relative">
+<nav class="w-full bg-white border-gray-200 dark:bg-gray-900 relative">
+
+
+
+  <div class="flex items-center justify-between mx-auto relative">
+
+    <!-- Toggle dark mode -->
+      <div class="absolute top-1 right-0 z-30">
+        <label class="inline-flex items-center cursor-pointer">
+        <input id="theme-toggle" type="checkbox" class="sr-only peer">
+        <div class=" w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
+        <span class="hidden sm:inline ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Sombre</span>
+        </label>
+    </div>
 
     <!-- Logo -->
     <a href="{{path('homepage')}}" class="flex items-center space-x-3 rtl:space-x-reverse">
@@ -15,6 +27,7 @@
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15"/>
         </svg>
     </button>
+
 
     <!-- Navigation links -->
     <div class="hidden w-full md:block md:w-auto" id="navbar-default">
@@ -87,15 +100,6 @@
           </a>
         </li>
       {% endif %}
-      
-        <!-- Toggle dark mode -->
-        <li class="md:order-3 md:ml-4 flex items-center">
-            <label class="inline-flex items-center cursor-pointer">
-            <input id="theme-toggle" type="checkbox" class="sr-only peer">
-            <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
-            <span class="hidden sm:inline ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Sombre</span>
-            </label>
-        </li>
 
       </ul>
     </div>
