@@ -34,3 +34,5 @@ yarn-error.log
 ### Local configuration files ###
 deploy-local-prod.sh
 .DS_Store
+/.fix-permissions.sh
+/scripts/deploy.sh
