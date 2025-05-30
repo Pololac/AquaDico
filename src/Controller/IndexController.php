@@ -17,6 +17,7 @@ class IndexController extends AbstractController
         $familiesCount = $fishRepository->countByFamily();
         $originsCount = $fishRepository->countByOrigin();
 
+        // throw new \Exception('Erreur de test en préprod');
 
         return $this->render('index/index.html.twig', [
             'fishes' => $fishes,
