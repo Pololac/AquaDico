@@ -67,7 +67,7 @@
                     data-dropdown-toggle="user-dropdown" 
                     data-dropdown-placement="bottom">
                 <span class="sr-only">Open user menu</span>
-                {% set defaultAvatar = asset('images/user-fill2.png') %}
+                {% set defaultAvatar = asset('build/images/user-fill2.png') %}
                 {% set photo = app.user.profilePictureFilename
                     ? asset('uploads/profile_pictures/' ~ app.user.profilePictureFilename)
                     : defaultAvatar
