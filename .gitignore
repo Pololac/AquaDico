@@ -30,4 +30,7 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
-MAMP SQL.session.sql
+
+### Local configuration files ###
+deploy-local-prod.sh
+.DS_Store

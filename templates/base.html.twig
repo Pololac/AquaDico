@@ -39,6 +39,10 @@
 
     <body class="container mx-auto px-4 bg-white text-gray-700 border-gray-200 dark:bg-gray-900">
 
+        <div style="position: fixed; bottom: 0; left: 0; background: #eee; padding: 5px;">
+            ENV = {{ app.environment }}
+        </div>
+
         {# NAVIGATION #}
         <header class="my-5">
             {{ include('nav.html.twig') }}
