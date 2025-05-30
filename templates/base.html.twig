@@ -30,16 +30,13 @@
         <link rel="manifest" href="{{ asset('site.webmanifest') }}">
     
         {{ encore_entry_link_tags('app') }}
-    
-        <!-- Flowbite CSS (optionnel si tu l’utilises vraiment) -->
-        <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.min.css" rel="stylesheet" />
-    
+        
         {% block stylesheets %}{% endblock %}
     </head>
 
     <body class="container mx-auto px-4 bg-white text-gray-700 border-gray-200 dark:bg-gray-900">
 
-        <div style="position: fixed; bottom: 0; left: 0; background: #eee; padding: 5px;">
+       <div style="position: fixed; bottom: 0; left: 0; background: #eee; padding: 5px;">
             ENV = {{ app.environment }}
         </div>
 
