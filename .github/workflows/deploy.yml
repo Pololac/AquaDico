@@ -28,7 +28,8 @@ jobs:
           --health-retries=5
 
     env:
-      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/aquadico_test?serverVersion=8.0.32&charset=utf8mb4"
+      # Symfony appends dbname_suffix "_test" in test env -> effective DB is "aquadico_test"
+      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/aquadico?serverVersion=8.0.32&charset=utf8mb4"
       MAILER_DSN: "null://null"
       APP_ENV: test
 
