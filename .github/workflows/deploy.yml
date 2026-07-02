@@ -1,0 +1,120 @@
+name: Test and deploy AquaDico to VPS
+
+on:
+  push:
+    branches: [ "master" ]
+  workflow_dispatch: {}
+
+concurrency:
+  group: deploy-aquadico-production
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: aquadico_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DATABASE_URL: "mysql://root:root@127.0.0.1:3306/aquadico_test?serverVersion=8.0.32&charset=utf8mb4"
+      MAILER_DSN: "null://null"
+      APP_ENV: test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, ctype, iconv, mysql, dom, xml
+          coverage: none
+
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+
+      - name: Install PHP dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Run database migrations
+        run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
+
+      - name: Run PHPUnit
+        run: php bin/phpunit
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Deploy to production VPS
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+
+            PROJECT_PATH="${{ secrets.AQUADICO_PATH }}"
+
+            echo "Starting deployment for AquaDico..."
+            cd "$PROJECT_PATH"
+
+            echo "Updating repository..."
+            git fetch origin
+            git reset --hard origin/master
+            git clean -fd
+
+            echo "Installing PHP dependencies..."
+            composer install --no-dev --optimize-autoloader
+
+            echo "Installing and building assets..."
+            npm ci
+            npm run build
+
+            echo "Running database migrations..."
+            php bin/console doctrine:migrations:migrate --no-interaction --env=prod
+
+            echo "Fixing var/ permissions..."
+            chown -R deploy:www-data var/
+            chmod -R 775 var/
+
+            echo "Clearing and warming cache..."
+            php bin/console cache:clear --env=prod
+            php bin/console cache:warmup --env=prod
+
+            echo "Deployment successful"
